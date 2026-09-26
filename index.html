@@ -26,7 +26,7 @@
   <header class="bg-slate-950 border-b border-blue-900/40 sticky top-0 z-50 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
       
-      <!-- Кликабельный заголовок -->
+      <!-- Кликабельный заголовок (возврат на главную) -->
       <div onclick="switchTab('main')" class="flex items-center gap-3 cursor-pointer group" title="Вернуться на Главную">
         <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/30 group-hover:bg-blue-500 transition">
           <i class="fa-solid fa-shield-halved text-xl"></i>
@@ -60,10 +60,10 @@
       <!-- Поисковой блок -->
       <div class="bg-slate-800/80 border border-slate-700 p-8 rounded-2xl mb-6 text-center shadow-lg">
         <h2 class="text-3xl font-bold text-white mb-4">Единая база данных</h2>
-        <p class="text-slate-400 mb-6 max-w-2xl mx-auto">Введите номер статьи, название нарушения или ключевое слово для сквозного поиска по всем кодексам (КоАП, УК РО и ПоПДД).</p>
+        <p class="text-slate-400 mb-6 max-w-2xl mx-auto">Глобальный поиск по всем кодексам (КоАП, УК РО, ПоПДД и УПК/Процессуалке).</p>
         <div class="relative max-w-3xl mx-auto">
           <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-blue-400 text-lg"></i>
-          <input type="text" id="globalSearch" oninput="performGlobalSearch()" placeholder="Например: Общие термины, ДТП, Оскорбление..." class="w-full bg-slate-900 border-2 border-blue-900/50 text-slate-100 pl-12 pr-4 py-3 rounded-xl text-lg focus:outline-none focus:border-blue-500 transition shadow-inner">
+          <input type="text" id="globalSearch" oninput="performGlobalSearch()" placeholder="Например: Общие термины, Оскорбление, Субъекты, ДТП..." class="w-full bg-slate-900 border-2 border-blue-900/50 text-slate-100 pl-12 pr-4 py-3 rounded-xl text-lg focus:outline-none focus:border-blue-500 transition shadow-inner">
         </div>
       </div>
 
@@ -80,7 +80,7 @@
         <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- Сюда рендерятся избранные -->
         </div>
-        <p id="favoritesEmpty" class="text-sm text-slate-500 italic mt-2">Вы пока не добавили статьи в избранное. Нажмите на звездочку в углу любой статьи (КоАП, УК или ПоПДД), чтобы закрепить её здесь.</p>
+        <p id="favoritesEmpty" class="text-sm text-slate-500 italic mt-2">Вы пока не добавили статьи в избранное. Нажмите на звездочку в углу любой карточки, чтобы закрепить её здесь.</p>
       </div>
     </section>
 
@@ -99,69 +99,31 @@
     <!-- Вкладка 3: ПоПДД -->
     <section id="content-pdd" class="tab-content hidden">
       <div class="mb-6">
-        <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-car text-emerald-500 mr-2"></i>Постановление о Правилах дорожного движения (ПоПДД)</h2>
-        <p class="text-sm text-slate-400 mt-1">Детализированные обязанности водителей, регламенты и положения на дорогах.</p>
+        <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-car text-emerald-500 mr-2"></i>Постановление о ПДД РО</h2>
+        <p class="text-sm text-slate-400 mt-1">Обязанности водителей, термины и регламенты.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="pddGrid"></div>
     </section>
 
-    <!-- Вкладка 4: Процессуалка -->
+    <!-- Вкладка 4: Процессуалка (УПК) -->
     <section id="content-procedure" class="tab-content hidden space-y-6">
       
-      <!-- Миранда -->
+      <!-- Фиксированный блок с Мирандой для быстрого копирования -->
       <div class="bg-slate-950 p-5 rounded-2xl border border-red-900/50 shadow-md">
         <div class="flex justify-between items-center mb-3">
-          <h3 class="font-bold text-red-400 text-lg"><i class="fa-solid fa-bullhorn mr-2"></i>Правило Миранды</h3>
-          <button onclick="copyText('miranda-text')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded transition font-bold"><i class="fa-solid fa-copy mr-1"></i> Копировать</button>
+          <h3 class="font-bold text-red-400 text-lg"><i class="fa-solid fa-bullhorn mr-2"></i>Правило Миранды (Быстрое копирование)</h3>
+          <button onclick="copyText('miranda-text-main')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded transition font-bold"><i class="fa-solid fa-copy mr-1"></i> Копировать</button>
         </div>
-        <p id="miranda-text" class="text-sm font-mono text-slate-300 leading-relaxed border-l-2 border-red-800 pl-4">«Вы можете давать показания и объяснения по поводу подозрений в нарушении уголовного кодекса, осознавая их использование в деле, либо отказаться от дачи объяснений и показаний. Вы можете воспользоваться помощью защитника и иметь свидание с ним наедине, воспользоваться телефонным звонком длительностью которого не должна превышать 2-х минут. Вы понимаете свои права?»</p>
+        <p id="miranda-text-main" class="text-sm font-mono text-slate-300 leading-relaxed border-l-2 border-red-800 pl-4">«Вы можете давать показания и объяснения по поводу подозрений в нарушении уголовного кодекса, осознавая их использование в деле, либо отказаться от дачи объяснений и показаний. Вы можете воспользоваться помощью защитника и иметь свидание с ним наедине, воспользоваться телефонным звонком длительностью которого не должна превышать 2-х минут. Вы понимаете свои права?»</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Порядок задержания -->
-        <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-          <h2 class="text-xl font-bold text-white mb-4"><i class="fa-solid fa-handcuffs text-blue-400 mr-2"></i>Порядок задержания (ст. 52 УПК)</h2>
-          <ol class="space-y-3 text-sm text-slate-200">
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">1</span><div><strong>Ограничение свободы:</strong> Наручники/залом.</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">2</span><div><strong>Идентификация:</strong> Удостоверение или ОПЗ.</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">3</span><div><strong>Обыск:</strong> Поверхностный досмотр на месте (на усмотрение).</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">4</span><div><strong>Миранда:</strong> Разъяснить основания и права.</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">5</span><div><strong>Транспортировка:</strong> Доставка в допросную/КПЗ.</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">6</span><div><strong>Передача:</strong> Передать МВД/ФСБ (Для ГИБДД).</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">7</span><div><strong>Следствие:</strong> Допрос, экспертиза, обыск.</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center text-xs font-bold shrink-0">8</span><div><strong>Реализация прав:</strong> Адвокат, телефонный звонок.</div></li>
-            <li class="flex items-center gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-red-900/50"><span class="w-6 h-6 rounded-full bg-red-600 text-white flex justify-center items-center text-xs font-bold shrink-0">!</span><div><strong>Если госслужащий:</strong> Обязательно вызвать прокурора и начальство.</div></li>
-          </ol>
-        </div>
-
-        <div class="space-y-4">
-          <!-- Тайминги -->
-          <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-            <h2 class="text-xl font-bold text-white mb-3"><i class="fa-solid fa-stopwatch text-amber-400 mr-2"></i>Регламент времени (Временные ограничения)</h2>
-            <ul class="text-sm text-slate-300 space-y-2.5">
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded"><span>Ожидание ответа адвоката:</span> <strong class="text-amber-400">3 минуты</strong></li>
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded"><span>Время на приезд адвоката:</span> <strong class="text-amber-400">7 минут</strong></li>
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded"><span>Вызов прокурора/судьи/начальства (Ответ):</span> <strong class="text-amber-400">10 минут</strong></li>
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded"><span>Вызов прокурора/судьи/начальства (Приезд):</span> <strong class="text-amber-400">10 минут</strong></li>
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded"><span>Длительность телефонного звонка:</span> <strong class="text-amber-400">2 минуты</strong></li>
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded"><span>Конфиденциальная беседа с адвокатом:</span> <strong class="text-amber-400">до 10 минут</strong></li>
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded border border-red-900/30"><span>Максимальное время всего задержания:</span> <strong class="text-red-400">60 минут</strong></li>
-              <li class="flex justify-between items-center bg-slate-900/50 p-2 rounded border border-blue-900/30"><span>Обязанность хранить видеозапись:</span> <strong class="text-blue-400">48 часов</strong></li>
-            </ul>
-          </div>
-          
-          <!-- Важные заметки -->
-          <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-            <h2 class="text-xl font-bold text-white mb-3"><i class="fa-solid fa-shield text-emerald-400 mr-2"></i>Служебные пометки</h2>
-            <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4 marker:text-emerald-500">
-              <li>Согласно 13 ч.1 п.18 ФЗ "О Полиции", мы имеем полное право останавливать ТС для проверки лицензий на вождение.</li>
-              <li>Если адвокаты намеренно мешают процессу ("душат") - имеем право выписывать штраф без составления протокола и принимать решение на месте (согласно ст. 17.6 и 18.6 КоАП РО).</li>
-              <li>Освобождение от адм. ответственности при малозначительности нарушения допускается согласно 2.5 КоАП.</li>
-              <li>Проверка лицензии на оружие регламентирована Главой 5 ст. 7 Закона об обороте оружия.</li>
-            </ul>
-          </div>
-        </div>
+      <div class="mb-6 mt-8">
+        <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-handcuffs text-red-500 mr-2"></i>Уголовно-процессуальный кодекс (УПК РО)</h2>
+        <p class="text-sm text-slate-400 mt-1">Порядок задержания, субъекты, основания освобождения и тайминги.</p>
       </div>
+      
+      <!-- Сюда рендерятся карточки УПК -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="upkGrid"></div>
     </section>
 
   </main>
@@ -271,13 +233,13 @@
       { art: "113 ч.1", title: "Оскорбление военнослужащего", pen: "20 мес", star: "★★", sud: false, fine: "до 30 000" }
     ];
 
-    // === БАЗА ДАННЫХ ПоПДД (Полностью разделена на статьи для сквозного поиска) ===
+    // === БАЗА ДАННЫХ ПоПДД ===
     const rawPddData = [
-      { art: "Ст. 1.2", title: "Общие понятия и термины", text: "Водитель — лицо, управляющее ТС. Остановка — преднамеренное прекращение движения до 5 мин. Стоянка — более 5 мин. ДТП — событие с ТС, повлекшее материальный ущерб или травмы. Парковка - место для стоянки ТС." },
+      { art: "Ст. 1.2", title: "Общие понятия и термины", text: "Водитель — лицо, управляющее ТС.\nОстановка — преднамеренное прекращение движения до 5 мин.\nСтоянка — более 5 мин.\nДТП — событие с ТС, повлекшее материальный ущерб или травмы.\nПарковка - место для стоянки ТС." },
       { art: "Ст. 1.3", title: "Соблюдение ПДД и сигналов", text: "Участники дорожного движения обязаны знать и соблюдать требования Правил, сигналов светофоров, знаков и разметки, выполнять распоряжения регулировщиков." },
       { art: "Ст. 1.5", title: "Опасное вождение", text: "Невыполнение требования уступить дорогу, несоблюдение безопасной дистанции, препятствование обгону, резкое торможение, хулиганские действия на дороге." },
       { art: "Ст. 2.1", title: "Документы водителя", text: "Водитель обязан иметь ВУ и медицинское заключение. Категории: B (легковые/гос), M (мото), C (тягачи/автобусы), C1 (микроавтобусы/пикапы). СИМ (самокаты, велосипеды) не требуют прав." },
-      { art: "Ст. 2.2 - 2.5", title: "Общие обязанности водителей", text: "Быть пристегнутым. Проверять тех. состояние авто. Покидать ТС по законному требованию инспектора (не отходить далее 15 м). Запрещено управлять в состоянии опьянения." },
+      { art: "Ст. 2.2 - 2.5", title: "Общие обязанности и правила водителей", text: "Быть пристегнутым. Проверять тех. состояние авто.\nПокидать ТС по законному требованию инспектора (не отходить далее 15 м).\nЗапрещено управлять в состоянии опьянения." },
       { art: "Ст. 2.6", title: "Действия при ДТП (Регламент)", text: "Незамедлительно остановить ТС, включить аварийную сигнализацию, выставить знак, не перемещать предметы. Вызвать экипаж ГИБДД." },
       { art: "Ст. 2.7 - 2.8", title: "Обязанности пассажиров", text: "Быть пристегнутыми. Посадку производить со стороны тротуара/обочины. Запрещено: отвлекать водителя, сидеть на бортах грузовика, открывать двери во время движения." },
       { art: "Ст. 3.1 - 3.2", title: "Спецсигналы и сирена (Синий маяк)", text: "Синий маяк + сирена дают приоритет на дороге. Водители обязаны уступить им дорогу. Разрешено отступать от требований ПДД (кроме регулировщика)." },
@@ -295,7 +257,19 @@
       { art: "Ст. 15.13 - 15.14", title: "Регламент перекрытия дорог", text: "Санкционируется руководством ГИБДД из-за ремонта, массовых нарушений, крупных ДТП. Требуется оповещение в гос. новости и установка патрульных авто поперек дороги." }
     ];
 
-    // Форматирование КоАП/УК (группировка по статьям для компактности)
+    // === БАЗА ДАННЫХ ПРОЦЕССУАЛКА (УПК и Тайминги) ===
+    const rawUpkData = [
+      { art: "Ст. 51 УПК", title: "Основания задержания подозреваемого", text: "1. Лицо застигнуто при совершении преступления или после.\n2. Потерпевшие или очевидцы указали на лицо.\n3. Обнаружены явные следы преступления на лице, одежде или в жилище.\n4. Лицо находится в ориентировке.\n5. Лицо пыталось скрыться или его личность не установлена." },
+      { art: "Ст. 52 УПК", title: "Порядок задержания (Алгоритм)", text: "а) Применить спецсредства (наручники / залом).\nб) Предъявить удостоверение или ОПЗ (жетон).\nв) Провести обыск (на усмотрение сотрудника).\nг) Зачитать Миранду и разъяснить основания задержания.\nд) Доставить в КПЗ / допросную.\nе) Установить личность (проверить принадлежность к гос. структуре).\nж) Реализовать права: звонок (2 мин), адвокат (ответ 3 мин, приезд 7 мин).\nз) Если госслужащий — обязательно вызвать прокурора и руководство.\nи) Следственные действия (допрос, экспертиза).\nк) Предъявить конкретное обвинение по статьям УК РО." },
+      { art: "Ст. 53 УПК", title: "Основания освобождения", text: "• Не подтвердилось подозрение в совершении преступления.\n• Задержание произведено с нарушением Ст. 51 УПК.\n• Общая продолжительность задержания превысила 60 минут.\n• В случае задержания госслужащего (или при суд. контроле) время превысило 90 минут." },
+      { art: "Ст. 54 УПК", title: "Субъекты задержания", text: "В процессе имеют право участвовать только:\n1. Сотрудники, осуществляющие задержание.\n2. Дознаватели/следователи по делу.\n3. Задержанный.\n4. Адвокат.\n5. Руководство задержанного.\n6. Работники Ген. прокуратуры и 1 сотрудник СК.\n7. Прокурор для надзора.\n8. Сотрудник СУ ФСБ.\n9. Судья (при судебном контроле).\n\nВсе остальные обязаны отойти на 5 метров или покинуть помещение." },
+      { art: "Ст. 83 УПК", title: "Особый порядок (Госслужащие)", text: "При задержании госслужащего:\n1. Обязательно вызвать прокурора и руководство задержанного.\n2. Ожидание ответа в рацию — до 10 минут.\n3. Ожидание приезда прокурора — до 10 минут.\n4. Если прокурор не прибыл в 10-минутный срок — задержанный подлежит немедленному освобождению." },
+      { art: "Тайминги", title: "Временные ограничения (Регламент времени)", text: "• Ответ адвоката: 3 минуты\n• Приезд адвоката: 7 минут\n• Вызов начальства/прокурора/судьи (ответ): 10 минут\n• Приезд начальства/прокурора/судьи: 10 минут\n• Телефонный разговор: 2 минуты\n• Конфиденциальная беседа с адвокатом: до 10 минут\n• Максимальное время всего задержания: 60 минут\n• Обязанность хранить видеозапись: 48 часов" },
+      { art: "Правило", title: "Правило Миранды", text: "«Вы можете давать показания и объяснения по поводу подозрений в нарушении уголовного кодекса, осознавая их использование в деле, либо отказаться от дачи объяснений и показаний. Вы можете воспользоваться помощью защитника и иметь свидание с ним наедине, воспользоваться телефонным звонком длительностью которого не должна превышать 2-х минут. Вы понимаете свои права?»" },
+      { art: "Заметки", title: "Служебные пометки и права", text: "• Ст. 13 ч.1 п.18 ФЗ «О Полиции»: инспектор имеет право останавливать ТС для проверки лицензий на вождение.\n• Ст. 17.6 и 18.6 КоАП РО: если адвокат намеренно мешает процессу («душит»), инспектор вправе выписать штраф без протокола и принять решение на месте.\n• Ст. 2.5 КоАП РО: допускается освобождение от ответственности при малозначительности нарушения." }
+    ];
+
+    // Функция группировки для КоАП и УК
     function groupData(data, prefix) {
       const grouped = {};
       data.forEach(item => {
@@ -312,10 +286,11 @@
     const koapGrouped = groupData(rawKoapData, 'koap');
     const ukGrouped = groupData(rawUkData, 'uk');
     const pddMapped = rawPddData.map((item, i) => ({ ...item, id: `pdd-${i}`, type: 'pdd' }));
+    const upkMapped = rawUpkData.map((item, i) => ({ ...item, id: `upk-${i}`, type: 'upk' }));
 
     let favorites = JSON.parse(localStorage.getItem('gibdd_favs')) || [];
 
-    // Визуальные маркеры
+    // Отрисовка звезд и судимости
     function renderStars(starStr) {
       if (!starStr || starStr === '—') return '';
       const count = (starStr.match(/★/g) || []).length;
@@ -332,11 +307,11 @@
         </span>`;
     }
 
-    // Рендер универсальной карточки
+    // Универсальный рендер карточек (КоАП, УК, ПДД, УПК)
     function buildCard(item) {
       const isFav = favorites.includes(item.id);
 
-      // Шаблон для ПДД (Простой текст без частей)
+      // Карточка для ПДД (Изумрудная)
       if (item.type === 'pdd') {
         return `
           <div class="bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl relative hover:border-emerald-500/50 transition flex flex-col shadow-sm">
@@ -347,12 +322,28 @@
               <span class="text-xs font-bold px-2 py-0.5 rounded border bg-emerald-900/60 text-emerald-300 border-emerald-700">ПоПДД | ${item.art}</span>
             </div>
             <h3 class="text-sm font-bold text-slate-100 mb-2 pr-6">${item.title}</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">${item.text}</p>
+            <p class="text-xs text-slate-300 leading-relaxed whitespace-pre-line">${item.text}</p>
           </div>
         `;
       }
 
-      // Шаблон для КоАП/УК (С частями и таймингами)
+      // Карточка для УПК/Процессуалки (Красная)
+      if (item.type === 'upk') {
+        return `
+          <div class="bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl relative hover:border-red-500/50 transition flex flex-col shadow-sm">
+            <button onclick="toggleFav('${item.id}')" class="fav-btn absolute top-3 right-3 text-lg transition ${isFav ? 'active text-yellow-400' : 'text-slate-600 hover:text-slate-400'}" title="В избранное">
+              <i class="fa-solid fa-star"></i>
+            </button>
+            <div class="mb-3">
+              <span class="text-xs font-bold px-2 py-0.5 rounded border bg-red-900/60 text-red-300 border-red-700">${item.art}</span>
+            </div>
+            <h3 class="text-sm font-bold text-slate-100 mb-2 pr-6">${item.title}</h3>
+            <p class="text-xs text-slate-300 leading-relaxed whitespace-pre-line">${item.text}</p>
+          </div>
+        `;
+      }
+
+      // Карточка для КоАП/УК (Синяя/Оранжевая)
       const isUk = item.type === 'uk';
       const colorTag = isUk ? 'amber' : 'blue';
       const bgColor = isUk ? 'bg-amber-900/40 text-amber-300 border-amber-700/60' : 'bg-blue-900/60 text-blue-300 border-blue-700';
@@ -392,9 +383,10 @@
       document.getElementById('koapGrid').innerHTML = koapGrouped.map(buildCard).join('');
       document.getElementById('ukGrid').innerHTML = ukGrouped.map(buildCard).join('');
       document.getElementById('pddGrid').innerHTML = pddMapped.map(buildCard).join('');
+      document.getElementById('upkGrid').innerHTML = upkMapped.map(buildCard).join('');
       
       // Заполняем избранное
-      const allData = [...koapGrouped, ...ukGrouped, ...pddMapped];
+      const allData = [...koapGrouped, ...ukGrouped, ...pddMapped, ...upkMapped];
       const favsData = allData.filter(item => favorites.includes(item.id));
       const favGrid = document.getElementById('favoritesGrid');
       const favEmpty = document.getElementById('favoritesEmpty');
@@ -411,7 +403,7 @@
       performGlobalSearch();
     }
 
-    // СКВОЗНОЙ ПОИСК (Работает и по КоАП, и по УК, и по ПоПДД)
+    // СКВОЗНОЙ ПОИСК (Ищет по КоАП, УК, ПДД и УПК/Процессуалке)
     function performGlobalSearch() {
       const query = document.getElementById('globalSearch').value.toLowerCase();
       const resultsBox = document.getElementById('globalSearchResults');
@@ -427,15 +419,15 @@
 
       favSection.classList.add('hidden');
       
-      const allData = [...koapGrouped, ...ukGrouped, ...pddMapped];
+      const allData = [...koapGrouped, ...ukGrouped, ...pddMapped, ...upkMapped];
       
       const filtered = allData.filter(item => {
-        // Логика поиска для ПДД (учитываем текст, название и статью)
-        if (item.type === 'pdd') {
-          const textPdd = (item.art + ' ' + item.title + ' ' + item.text).toLowerCase();
-          return textPdd.includes(query);
+        // Поиск для ПДД и УПК (учитываем текст, название и саму статью)
+        if (item.type === 'pdd' || item.type === 'upk') {
+          const textFull = (item.art + ' ' + item.title + ' ' + item.text).toLowerCase();
+          return textFull.includes(query);
         } 
-        // Логика поиска для КоАП/УК
+        // Поиск для КоАП/УК
         else {
           const textOther = (item.baseArt + ' ' + item.parts.map(p => p.title).join(' ')).toLowerCase();
           return textOther.includes(query);
@@ -476,16 +468,16 @@
         activeTabBtn.classList.remove('text-slate-300');
       }
       
-      // Если возвращаемся на главную, сбрасываем поиск
+      // Сбрасываем поиск при переходе на главную
       if(tabId === 'main') {
         document.getElementById('globalSearch').value = '';
         performGlobalSearch();
       }
     }
 
-    // Копирование текста
+    // Копирование текста в буфер
     function copyText(id) {
-      navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => alert('Текст скопирован!'));
+      navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => alert('Текст Миранды успешно скопирован!'));
     }
 
     // Первоначальный запуск
