@@ -1,30 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Служебный справочник ГИБДД | Россия Онлайн</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     tailwind.config = {
       darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            police: {
-              DEFAULT: '#1e3a8a',
-              dark: '#0f172a',
-              accent: '#3b82f6',
-              gold: '#eab308'
-            }
-          }
-        }
-      }
+      theme: { extend: { colors: { police: { DEFAULT: '#1e3a8a', dark: '#0f172a', accent: '#3b82f6', gold: '#eab308' } } } }
     }
   </script>
+  <style>
+    /* Кастомный скроллбар */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+  </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col">
 
@@ -37,29 +31,17 @@
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-wide text-white uppercase flex items-center gap-2">
-            УГИБДД РО <span class="text-xs bg-blue-600/30 text-blue-400 border border-blue-500/40 px-2 py-0.5 rounded">Памятка ДПС</span>
+            УГИБДД РО <span class="text-xs bg-blue-600/30 text-blue-400 border border-blue-500/40 px-2 py-0.5 rounded">База Знаний v2.0</span>
           </h1>
           <p class="text-xs text-slate-400">Служебный портал инспектора безопасности дорожного движения</p>
         </div>
       </div>
 
-      <!-- Навигационные кнопки -->
       <nav class="flex flex-wrap gap-2 text-sm font-medium">
-        <button onclick="switchTab('koap')" id="tab-koap" class="tab-btn active px-3 py-1.5 rounded-lg transition bg-blue-600 text-white">
-          <i class="fa-solid fa-book-bookmark mr-1.5"></i>КоАП (ПДД)
-        </button>
-        <button onclick="switchTab('uk')" id="tab-uk" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300">
-          <i class="fa-solid fa-gavel mr-1.5"></i>Статьи УК
-        </button>
-        <button onclick="switchTab('traffic-stop')" id="tab-traffic-stop" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300">
-          <i class="fa-solid fa-car-on mr-1.5"></i>Трафик-стоп
-        </button>
-        <button onclick="switchTab('procedure')" id="tab-procedure" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300">
-          <i class="fa-solid fa-handcuffs mr-1.5"></i>Процессуалка
-        </button>
-        <button onclick="switchTab('rp-rules')" id="tab-rp-rules" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300">
-          <i class="fa-solid fa-scale-balanced mr-1.5"></i>Правила и OOC
-        </button>
+        <button onclick="switchTab('koap')" id="tab-koap" class="tab-btn active px-3 py-1.5 rounded-lg transition bg-blue-600 text-white"><i class="fa-solid fa-book-bookmark mr-1.5"></i>КоАП</button>
+        <button onclick="switchTab('uk')" id="tab-uk" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-gavel mr-1.5"></i>Уголовный Кодекс</button>
+        <button onclick="switchTab('procedure')" id="tab-procedure" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-handcuffs mr-1.5"></i>Процессуалка</button>
+        <button onclick="switchTab('rules')" id="tab-rules" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-scale-balanced mr-1.5"></i>ПГО и Этика</button>
       </nav>
     </div>
   </header>
@@ -67,502 +49,341 @@
   <!-- Основной контент -->
   <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
 
-    <!-- Вкладка 1: КоАП РО (Глава 8 - Дорожное движение) -->
+    <!-- Вкладка 1: КоАП -->
     <section id="content-koap" class="tab-content block">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
-          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-book-open text-blue-500"></i> КоАП РО — Глава 8. Дорожное движение
-          </h2>
-          <p class="text-sm text-slate-400">Быстрый поиск правонарушений, санкций, штрафов и оснований для лишения ВУ</p>
+          <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-500"></i> КоАП РО (Дорожные и общественные статьи)</h2>
+          <p class="text-sm text-slate-400">Ст. 17.6 КоАП: при помехах от адвоката штраф может выписываться без протокола на месте.</p>
         </div>
         <div class="relative w-full md:w-80">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
-          <input type="text" id="koapSearch" oninput="filterKoap()" placeholder="Поиск статьи или нарушения..." 
-                 class="w-full bg-slate-800 border border-slate-700 text-slate-100 pl-9 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition">
+          <input type="text" id="koapSearch" oninput="filterData('koap')" placeholder="Поиск статьи КоАП..." class="w-full bg-slate-800 border border-slate-700 text-slate-100 pl-9 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition">
         </div>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="koapGrid">
-        
-        <!-- Карточка 8.1 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Статья 8.1</span>
-              <span class="text-xs font-semibold text-emerald-400">3.000 – 7.000 ₽</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Управление ТС без регистрации</h3>
-            <p class="text-xs text-slate-400">Управление транспортным средством, не зарегистрированным в установленном законом порядке.</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Санкция: Штраф</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.2 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Статья 8.2</span>
-              <span class="text-xs font-semibold text-amber-400">До 18.000 ₽ / Лишение</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Нарушение правил установки ГРЗ</h3>
-            <p class="text-xs text-slate-400">ч.1: Нечитаемые номера (до 5.000 ₽). ч.2: Без номеров / скрытые / видоизмененные (5.000–18.000 ₽ или лишение ВУ). ч.3: Устройства сокрытия номеров (лишение ВУ).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Санкция: Штраф / Лишение ВУ</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.3 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Статья 8.3</span>
-              <span class="text-xs font-semibold text-emerald-400">До 7.000 ₽</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Управление без документов</h3>
-            <p class="text-xs text-slate-400">ч.1: Без документов на ТС (до 3.000 ₽). ч.2: Без ВУ при себе (до 7.000 ₽). ч.3: Передача ТС лицу без документов (до 25.000 ₽).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Санкция: Предупреждение / Штраф</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.4 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Статья 8.4</span>
-              <span class="text-xs font-semibold text-amber-400">1.500 – 15.000 ₽ / Лишение</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Опасное вождение</h3>
-            <p class="text-xs text-slate-400">Неуступка при перестроении, несоблюдение дистанции, резкое торможение, препятствие обгону, хулиганские действия на дороге (ст. 1.5 ПДД).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Санкция: Штраф и/или лишение ВУ</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.5 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-900/60 text-red-300 border border-red-700">Статья 8.5 [★★]</span>
-              <span class="text-xs font-semibold text-red-400">До 50.000 ₽ / Арест</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Езда без права управления</h3>
-            <p class="text-xs text-slate-400">ч.1: Без получения прав (15.000–25.000 ₽). ч.2: Водителем, лишённым прав (30.000–50.000 ₽ либо арест до 15 суток). ч.3: Передача ТС лицу без прав (50.000 ₽).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Меры: Штраф / Арест до 15 суток</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.6 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Статья 8.6</span>
-              <span class="text-xs font-semibold text-amber-400">До 35.000 ₽ / Лишение</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Превышение скорости</h3>
-            <p class="text-xs text-slate-400">ч.1: Превышение на 15+ км/ч (до 10.000 ₽). ч.2: Превышение на 40+ км/ч (до 25.000 ₽). ч.3: Превышение на 60+ км/ч (до 35.000 ₽ или лишение ВУ).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Ограничения: Город 60 / Трасса 90-110</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.10 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Статья 8.10</span>
-              <span class="text-xs font-semibold text-emerald-400">До 4.750 ₽</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Езда по обочине и тротуарам</h3>
-            <p class="text-xs text-slate-400">ч.1: Нарушение расположения, обочина, пересечение колонны (до 3.500 ₽). ч.2: Езда по тротуарам, велодорожкам (до 4.750 ₽).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Санкция: Штраф</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.12 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Статья 8.12</span>
-              <span class="text-xs font-semibold text-emerald-400">До 7.000 ₽ / Эвакуация</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Нарушение правил остановки/стоянки</h3>
-            <p class="text-xs text-slate-400">ч.1: Нарушение правил остановки/стоянки (до 5.000 ₽). ч.2: В запрещенных местах, на остановках маршрутного ТС (до 7.000 ₽). Применяется эвакуация (ст. 16.5).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Меры: Штраф + Задержание ТС</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.15 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-900/60 text-red-300 border border-red-700">Статья 8.15 [★★]</span>
-              <span class="text-xs font-semibold text-red-400">10.000 – 30.000 ₽ / Арест</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Невыполнение требования об остановке</h3>
-            <p class="text-xs text-slate-400">Игнорирование законного требования сотрудника полиции/ГИБДД об остановке ТС (мегафон, жест, звуковой сигнал).</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Санкция: Арест до 20 суток / Штраф</span>
-          </div>
-        </div>
-
-        <!-- Карточка 8.17 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-900/60 text-amber-300 border border-amber-700">Статья 8.17</span>
-              <span class="text-xs font-semibold text-amber-400">Эвакуация на спецстоянку</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Неуплата 10 и более штрафов</h3>
-            <p class="text-xs text-slate-400">Запрещается эксплуатация и стоянка ТС, имеющего 10 и более активных неоплаченных штрафов. ТС эвакуируется на спецстоянку.</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Меры: Принудительная эвакуация</span>
-          </div>
-        </div>
-
-        <!-- Карточка 10.2 -->
-        <div class="koap-card bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-900/60 text-red-300 border border-red-700">Статья 10.2 [★★]</span>
-              <span class="text-xs font-semibold text-red-400">2x штраф / Арест</span>
-            </div>
-            <h3 class="text-base font-semibold text-slate-100 mb-1">Отказ от уплаты штрафа</h3>
-            <p class="text-xs text-slate-400">Передача тикета обратно без уплаты, устный/письменный отказ от уплаты штрафа на месте или игнорирование тикета.</p>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700/60 flex justify-between text-xs text-slate-400">
-            <span>Санкция: Двойной штраф / Арест до 20 суток</span>
-          </div>
-        </div>
-
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="koapGrid"></div>
     </section>
 
-    <!-- Вкладка 2: Профильные статьи УК РО -->
+    <!-- Вкладка 2: УК -->
     <section id="content-uk" class="tab-content hidden">
-      <div class="mb-6">
-        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-gavel text-amber-500"></i> Профильные статьи УК РО для экипажей ДПС
-        </h2>
-        <p class="text-sm text-slate-400">Основания для уголовного задержания, розыска и передачи следственным органам</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- УК 67 -->
-        <div class="bg-slate-800/90 border border-slate-700 p-5 rounded-xl">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold px-2.5 py-1 rounded bg-red-900 text-red-200 border border-red-700">Статья 67 [★★★]</span>
-            <span class="text-xs text-red-400 font-semibold">30 месяцев лишения свободы</span>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">Неправомерное завладение ТС (Угон)</h3>
-          <p class="text-sm text-slate-300 mb-3">Завладение автомобилем со сдвигом с места (включая эвакуацию угнанного авто без ведома органов). Если залезли в салон, но не сдвинули ТС — квалифицируется как хулиганство.</p>
-          <div class="bg-slate-900/80 p-3 rounded text-xs text-slate-400">
-            <strong>Исключение:</strong> Служебный транспорт госслужащих. Гражданин обязан покинуть его по первому требованию.
-          </div>
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-gavel text-amber-500"></i> Уголовный кодекс РО</h2>
+          <p class="text-sm text-slate-400">Красным маркером 🟥 отмечены статьи, предусматривающие судимость (от 40 месяцев).</p>
         </div>
-
-        <!-- УК 78 -->
-        <div class="bg-slate-800/90 border border-slate-700 p-5 rounded-xl">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold px-2.5 py-1 rounded bg-red-900 text-red-200 border border-red-700">Статья 78 [★★★ / ★★★★]</span>
-            <span class="text-xs text-red-400 font-semibold">30–40 мес. / До 60.000 ₽</span>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">ДТП с тяжким вредом здоровью или смертью</h3>
-          <p class="text-sm text-slate-300 mb-3">Нарушение ПДД водителем, повлекшее по неосторожности тяжкий вред здоровью (30 мес. / штраф 60.000 ₽) либо смерть человека (40 мес. лишения свободы).</p>
-          <div class="bg-slate-900/80 p-3 rounded text-xs text-slate-400">
-            <strong>Внимание:</strong> Легкий и средний вред здоровью оформляются по ст. 8.14 КоАП РО.
-          </div>
-        </div>
-
-        <!-- УК 104 -->
-        <div class="bg-slate-800/90 border border-slate-700 p-5 rounded-xl">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold px-2.5 py-1 rounded bg-red-900 text-red-200 border border-red-700">Статья 104 [★★★]</span>
-            <span class="text-xs text-red-400 font-semibold">30 месяцев / До 40.000 ₽</span>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">Публичное оскорбление представителя власти</h3>
-          <p class="text-sm text-slate-300 mb-3">Оскорбление сотрудника при исполнении обязанностей. Обязателен признак публичности: совершено в СМИ или в присутствии 3+ посторонних граждан-свидетелей.</p>
-          <div class="bg-slate-900/80 p-3 rounded text-xs text-slate-400">
-            <strong>Непубличное оскорбление (тет-а-тет):</strong> квалифицируется по ст. 10.1 КоАП РО (арест 15 суток или штраф).
-          </div>
-        </div>
-
-        <!-- УК 105 -->
-        <div class="bg-slate-800/90 border border-slate-700 p-5 rounded-xl">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold px-2.5 py-1 rounded bg-red-900 text-red-200 border border-red-700">Статья 105 [★★★]</span>
-            <span class="text-xs text-red-400 font-semibold">30 месяцев / До 40.000 ₽</span>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">Неповиновение законному распоряжению сотрудника полиции</h3>
-          <p class="text-sm text-slate-300 mb-3">Отказ подчиниться законным требованиям сотрудника полиции/ГИБДД либо активное воспрепятствование исполнению служебных обязанностей.</p>
+        <div class="relative w-full md:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+          <input type="text" id="ukSearch" oninput="filterData('uk')" placeholder="Поиск статьи УК..." class="w-full bg-slate-800 border border-slate-700 text-slate-100 pl-9 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-amber-500 transition">
         </div>
       </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="ukGrid"></div>
     </section>
 
-    <!-- Вкладка 3: Трафик-стоп и тактика -->
-    <section id="content-traffic-stop" class="tab-content hidden space-y-6">
-      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-traffic-light text-blue-400"></i> Регламент 10-55 (Стандартная остановка ТС)
-        </h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60">
-            <span class="text-blue-400 font-bold text-sm block mb-1">Шаг 1. Приказ об остановке</span>
-            <p class="text-xs text-slate-300">Подача сигнала в мегафон (громкоговоритель) или жестом (ст. 5.2 ПДД). Укажите ТС прижаться к правой обочине.</p>
-          </div>
-          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60">
-            <span class="text-blue-400 font-bold text-sm block mb-1">Шаг 2. Парковка патруля</span>
-            <p class="text-xs text-slate-300">Патрульный автомобиль ставится позади остановленного ТС со смещением левее, чтобы закрыть инспектора от потока машин.</p>
-          </div>
-          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60">
-            <span class="text-blue-400 font-bold text-sm block mb-1">Шаг 3. Доклад и подход</span>
-            <p class="text-xs text-slate-300">Касание рукой задней фары/багажника (оставить отпечаток). Подход к стойке водительской двери под углом.</p>
-          </div>
-          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60">
-            <span class="text-blue-400 font-bold text-sm block mb-1">Шаг 4. Диалог и документы</span>
-            <p class="text-xs text-slate-300">Представиться, озвучить причину остановки, потребовать ВУ и мед. справку (ст. 2.1 ПДД). Обращение строго на «Вы».</p>
-          </div>
-        </div>
-
-        <!-- Отыгровка 10-55 -->
-        <div class="bg-slate-950 p-4 rounded-xl border border-blue-900/40">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-blue-400">Шаблон обращения к водителю (Голосовой чат / Отыгровка)</span>
-            <button onclick="copyText('rp-stop-text')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition">
-              <i class="fa-regular fa-copy mr-1"></i>Копировать
-            </button>
-          </div>
-          <p id="rp-stop-text" class="text-sm font-mono text-slate-200 leading-relaxed">
-            «Здравия желаю! Инспектор УГИБДД по РО, [Звание] [Фамилия], жетон #[StaticID]. Причина остановки вашего транспортного средства — [назвать причину/статью ПДД]. Заглушите двигатель, положите руки на руль и передайте ваше водительское удостоверение и медицинскую справку для проверки».
-          </p>
-        </div>
-      </div>
-
-      <!-- Категории прав и техсостояние -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-id-card text-emerald-400"></i> Категории прав (ст. 2.1 ПДД)
-          </h3>
-          <ul class="text-xs space-y-1.5 text-slate-300">
-            <li>• <strong class="text-white">B</strong> — Легковой транспорт, ведомственный гос. транспорт любого класса.</li>
-            <li>• <strong class="text-white">M</strong> — Мотоциклы, квадроциклы, снегоходы, карты.</li>
-            <li>• <strong class="text-white">C</strong> — Седельные тягачи, мусоровозы, автобусы, 3+ оси.</li>
-            <li>• <strong class="text-white">C1</strong> — Фургоны, микроавтобусы, пикапы (2-3 оси).</li>
-            <li class="text-amber-400">• <strong>СИМ</strong> (самокаты, велосипеды) — права не требуются!</li>
-          </ul>
-        </div>
-
-        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Запрет эксплуатации ТС (ст. 13.2 ПДД)
-          </h3>
-          <ul class="text-xs space-y-1.5 text-slate-300">
-            <li>• Отсутствие номеров (ГРЗ) на автомобиле.</li>
-            <li>• Состояние двигателя менее 50% по техпаспорту.</li>
-            <li>• Наличие исходящего черного дыма из-под капота.</li>
-            <li>• Отсутствие или пробитие хотя бы одной шины/колеса.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Вкладка 4: Процессуальный порядок и Задержание -->
+    <!-- Вкладка 3: Процессуалка -->
     <section id="content-procedure" class="tab-content hidden space-y-6">
+      
+      <!-- Алгоритм задержания -->
       <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-        <h2 class="text-2xl font-bold text-white mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-handcuffs text-red-400"></i> Алгоритм задержания (ст. 16.2.1 КоАП / ст. 52 УПК)
-        </h2>
-        <p class="text-xs text-slate-400 mb-6">Строгая последовательность процессуальных действий сотрудника полиции при ограничении свободы</p>
-
-        <ol class="space-y-3 text-sm text-slate-200">
+        <h2 class="text-2xl font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-handcuffs text-red-400"></i> Порядок задержания (ст. 52 УПК / ст. 16.2.1 КоАП)</h2>
+        <ol class="space-y-3 text-sm text-slate-200 mt-4">
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
             <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">1</span>
-            <div><strong>Ограничить свободу:</strong> Применить спецсредства (наручники/залом) для безопасности.</div>
+            <div><strong>Ограничение свободы:</strong> Применить спецсредства (наручники/залом) с целью ограничить свободу.</div>
           </li>
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
             <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">2</span>
-            <div><strong>Идентификация:</strong> Предъявить служебное удостоверение или жетон сотрудника полиции.</div>
+            <div><strong>Идентификация сотрудника:</strong> Предъявить служебное удостоверение или иной идентификационный знак (жетон).</div>
           </li>
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
             <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span>
-            <div><strong>Первичный обыск:</strong> Провести поверхностный досмотр на наличие оружия/опасных предметов (на усмотрение).</div>
+            <div><strong>Обыск (на усмотрение):</strong> Провести первичный поверхностный досмотр.</div>
           </li>
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
             <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">4</span>
-            <div><strong>Оглашение оснований и Миранды:</strong> Разъяснить причину задержания и зачитать права гражданина в голосовой чат!</div>
+            <div><strong>Оглашение прав:</strong> Разъяснить основания задержания и зачитать права гражданина (Миранду).</div>
           </li>
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
             <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">5</span>
-            <div><strong>Транспортировка:</strong> Доставить задержанного в КПЗ УГИБДД/МВД на служебном автомобиле.</div>
+            <div><strong>Транспортировка:</strong> Доставить задержанного в КПЗ / допросную. (Пункт 6: Передать МВД/ФСБ, если дело не подследственно ГИБДД).</div>
           </li>
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
             <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">6</span>
-            <div><strong>Идентификация личности и статус:</strong> Проверить документы, установить личность и проверить, не является ли он госслужащим.</div>
+            <div><strong>Идентификация задержанного:</strong> Установить личность. Если госслужащий — вызвать прокурора и начальство!</div>
           </li>
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
             <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">7</span>
-            <div><strong>Реализация прав:</strong> Адвокат (3 мин ожидание ответа + 7 мин на приезд). Телефонный звонок — 1 звонок до 2 минут.</div>
+            <div><strong>Следственные действия:</strong> При необходимости провести допрос, обыск, экспертизу. Допрос не более 60 минут.</div>
           </li>
           <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs font-bold shrink-0">!</span>
-            <div><strong>Если задержанный — госслужащий:</strong> Обязательно вызвать прокурора и его руководство (ст. 16.2.2 КоАП / ст. 83 УПК). Время ожидания ответа до 10 мин, прибытия до 10 мин. Сажать госслужащего без решения прокурора запрещено!</div>
+            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">8</span>
+            <div><strong>Реализация прав:</strong> Вызов адвоката и телефонный звонок.</div>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">9</span>
+            <div><strong>Арест:</strong> Предъявить обвинение с указанием статей УК/КоАП и поместить в КПЗ.</div>
           </li>
         </ol>
 
         <!-- Миранда -->
         <div class="mt-6 bg-slate-950 p-4 rounded-xl border border-red-900/50">
           <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-red-400">Текст правила Миранды (Обязательно в Voice чат)</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-red-400">Текст правила Миранды (в Voice чат)</span>
             <button onclick="copyText('miranda-text')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition">
               <i class="fa-regular fa-copy mr-1"></i>Копировать
             </button>
           </div>
           <p id="miranda-text" class="text-sm font-mono text-slate-200 leading-relaxed">
-            «Вы имеете право хранить молчание. Всё, что вы скажете, может и будет использовано против вас. Вы имеете право на один телефонный разговор длительностью не более двух минут. Вы имеете право на квалифицированную юридическую помощь защитника или государственного адвоката. Вы понимаете свои права?»
+            «Вы можете давать показания и объяснения по поводу подозрений в нарушении уголовного кодекса, осознавая их использование в деле, либо отказаться от дачи объяснений и показаний. Вы можете воспользоваться помощью защитника и иметь свидание с ним наедине, воспользоваться телефонным звонком длительностью которого не должна превышать 2-х минут. Вы понимаете свои права?»
           </p>
+        </div>
+      </div>
+
+      <!-- Списки и Тайминги -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Тайминги -->
+        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
+          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-stopwatch text-amber-400"></i> Процессуальные тайминги</h3>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li>• <strong>Ожидание ответа адвоката:</strong> 3 минуты</li>
+            <li>• <strong>Время на приезд адвоката:</strong> 7 минут</li>
+            <li>• <strong>Конфиденциальная беседа:</strong> до 10 минут</li>
+            <li>• <strong>Телефонный звонок:</strong> 1 звонок до 2 минут</li>
+            <li>• <strong>Вызов прокурора/начальства:</strong> ответ 10 мин, приезд 10 мин</li>
+            <li>• <strong>Макс. время задержания:</strong> 60 минут. Если больше — отпускаем.</li>
+            <li>• <strong>Хранение видеозаписи (боди-камеры):</strong> 72 часа по КоАП.</li>
+          </ul>
+        </div>
+
+        <!-- Неприкосновенные -->
+        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
+          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-user-shield text-blue-400"></i> Неприкосновенные лица</h3>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li>1. Президент и госсоветники</li>
+            <li>2. Премьер-министр и замы</li>
+            <li>3. Министры и замы</li>
+            <li>4. Председатель СК и замы</li>
+            <li>5. Главы гос. структур и замы</li>
+            <li>6. Судьи, Прокуроры, Агенты ПС ФСБ (при надзоре)</li>
+            <li>7. Депутаты ГД</li>
+            <li><span class="text-amber-400">Запрещено задерживать! Немедленно отпустить после установки личности.</span></li>
+          </ul>
+        </div>
+
+        <!-- Субъекты -->
+        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
+          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-users text-emerald-400"></i> Субъекты задержания</h3>
+          <p class="text-xs text-slate-400 mb-2">Кто имеет право находиться в допросной/КПЗ:</p>
+          <ul class="text-xs space-y-1 text-slate-300">
+            <li>1. Сотрудники, проводящие задержание</li>
+            <li>2. Сам задержанный</li>
+            <li>3. Адвокат задержанного</li>
+            <li>4. Руководство задержанного</li>
+            <li>5. Сотрудник прокуратуры и 1 СК</li>
+            <li>6. Агент ПС ФСБ для надзора</li>
+            <li>7. Судья (при упрощ. судопроизводстве)</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- Вкладка 5: Правила проекта и OOC ограничения -->
-    <section id="content-rp-rules" class="tab-content hidden space-y-4">
-      <div class="mb-4">
-        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Правила проекта для гос. служащих (ПГО)
-        </h2>
-        <p class="text-sm text-slate-400">Нарушение этих правил влечет наказания от администрации (Деморган / Варн / Бан)</p>
+    <!-- Вкладка 4: ПГО и Этика -->
+    <section id="content-rules" class="tab-content hidden space-y-6">
+      
+      <!-- Правила Гос. Организаций -->
+      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-building-shield text-blue-400"></i> Правила Государственных Организаций (ПГО)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+            <h3 class="font-bold text-blue-400 mb-1">Сроки КПЗ (п. 1.7 ПГО)</h3>
+            <p class="text-xs text-slate-300">Максимум <strong>10 минут за 1 звезду розыска</strong>. Максимальный срок за 5 звезд — 50 минут. Отклонение в большую сторону запрещено. Жетон = Static ID.</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+            <h3 class="font-bold text-blue-400 mb-1">Обыск багажников (р. 14 ПГО)</h3>
+            <p class="text-xs text-slate-300">В патруле обыск багажника разрешен только при <strong>нарушениях УК</strong>, либо при ограблениях (бизнеса/банка), либо по выписанному ордеру от руководства.</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+            <h3 class="font-bold text-blue-400 mb-1">Взятки (п. 1.1.2 ПГО)</h3>
+            <p class="text-xs text-slate-300">Сумма взятки не должна превышать <strong>100.000 ₽</strong> (передается исключительно деньгами). Для сумм выше нужна РП-ситуация на форуме.</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+            <h3 class="font-bold text-blue-400 mb-1">Задержание госслужащих (п. 1.14)</h3>
+            <p class="text-xs text-slate-300">Сотрудник госструктуры может быть посажен в КПЗ <strong>только при выявлении нарушения от прокурора</strong>. Исключение: отсутствие ОПЗ (жетона/удостоверения) или ордер суда.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        
-        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
-          <h3 class="font-bold text-blue-400 mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-video"></i> Видеофиксация (Боди-камера)
-          </h3>
-          <p class="text-xs text-slate-300">
-            Каждое задержание, выписка штрафа, выдача розыска, обыск или эвакуация обязаны иметь непрерывную видеозапись со звуком в качестве от 480p. 
-            <strong>Срок хранения:</strong> 48 часов по ПГО (п. 7.4) и 72 часа по КоАП/УПК.
-          </p>
+      <!-- Кодекс Этики -->
+      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-user-tie text-emerald-400"></i> Кодекс Этики и Служебного Поведения</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+            <h3 class="font-bold text-emerald-400 mb-1">Общение и субординация (ст. 13)</h3>
+            <p class="text-xs text-slate-300">Обращение к коллегам и гражданам строго на <strong>«Вы»</strong>. Запрещено использование нецензурных слов, прозвищ, фамильярности. Обращение по званию: «Товарищ Генерал».</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+            <h3 class="font-bold text-emerald-400 mb-1">Внешний вид и одежда (ст. 21-24)</h3>
+            <p class="text-xs text-slate-300">Строгий деловой стиль. Запрещены: спортивная одежда, яркие линзы/волосы, татуировки на видимых частях тела, неклассические очки, броские ювелирные украшения.</p>
+          </div>
         </div>
-
-        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
-          <h3 class="font-bold text-blue-400 mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-stopwatch"></i> Сроки КПЗ за розыск (п. 1.7 ПГО)
-          </h3>
-          <p class="text-xs text-slate-300">
-            Максимально допустимый срок посадки в КПЗ за 1 звезду — <strong>до 10 минут</strong>. При 5 звездах максимальный срок посадки — 50 минут. Отклонение в большую сторону запрещено.
-          </p>
-        </div>
-
-        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
-          <h3 class="font-bold text-blue-400 mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-box-open"></i> Обыск багажников авто (р. 14 ПГО)
-          </h3>
-          <p class="text-xs text-slate-300">
-            При обычном патрулировании обыскивать багажник разрешено <strong>исключительно при нарушениях УК</strong> (уголовных статей), либо при наличии ордера, либо при ограблении банков/бизнесов.
-          </p>
-        </div>
-
-        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
-          <h3 class="font-bold text-blue-400 mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-id-badge"></i> Жетон и Удостоверение (п. 1.21 ПГО)
-          </h3>
-          <p class="text-xs text-slate-300">
-            Номер ОПЗ сотрудника приравнивается к его <strong>статическому ID (#1234)</strong>. Опознавательный знак должен быть надет. По запросу участников RP-ситуации сотрудник обязан показать удостоверение.
-          </p>
-        </div>
-
-        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
-          <h3 class="font-bold text-blue-400 mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-hand-holding-dollar"></i> Взятки и криминал (п. 1.1 ПГО)
-          </h3>
-          <p class="text-xs text-slate-300">
-            Сотрудникам госструктур запрещены любые криминальные действия без одобренной RP-ситуации на форуме. Максимальная сумма взятки — <strong>100.000 ₽</strong> (только деньгами и только с RP-ситуацией).
-          </p>
-        </div>
-
-        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
-          <h3 class="font-bold text-blue-400 mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-car-burst"></i> Погоня и NonRP Drive (п. 5.3 правил)
-          </h3>
-          <p class="text-xs text-slate-300">
-            Во время преследования подозреваемого гос. сотрудникам <strong>разрешено</strong> отступать от правил NRD (выезд на встречную полосу, тротуары). Таран легковой машиной тяжелых грузовиков запрещен.
-          </p>
-        </div>
-
       </div>
+
+      <!-- Термины и OOC -->
+      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Базовые правила сервера (Наказания)</h2>
+        <ul class="text-xs space-y-2 text-slate-300 grid grid-cols-1 md:grid-cols-2 gap-x-4">
+          <li><strong>DM (Deathmatch):</strong> Убийство/урон без IC причины. Деморган 120-140 мин / Бан.</li>
+          <li><strong>DB (DriveBy):</strong> Наезд на игрока транспортом. Деморган 65-90 мин / Бан.</li>
+          <li><strong>PG (Powergaming):</strong> Преувеличение возможностей 1х1 (например, выход 1 в 3).</li>
+          <li><strong>NRD (NonRP Drive):</strong> Встречка, горы, тротуары. Наказание: VehBan 120-240 мин. Госникам в погоне — разрешено!</li>
+          <li><strong>Уход от RP:</strong> Выход из игры, вода, интерьер в погоне. Варн / Бан 5-10 дней.</li>
+          <li><strong>NLR (Новая жизнь):</strong> Запрет возвращаться на место смерти 15 минут. Месть запрещена.</li>
+        </ul>
+      </div>
+
     </section>
 
   </main>
 
-  <!-- Футер -->
-  <footer class="bg-slate-950 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500">
-    <p>Управление Государственной Инспекции Безопасности Дорожного Движения • Сервер «Россия Онлайн»</p>
-  </footer>
-
-  <!-- Интерактивный JS -->
+  <!-- База Данных КоАП и УК (Скрипт для рендера) -->
   <script>
+    // Данные КоАП РО
+    const koapData = [
+      { art: "8.1", title: "Езда без регистрации ТС", penalty: "3 000 – 7 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.2 ч.1", title: "Нечитаемые номера", penalty: "до 5 000 ₽ / Пред.", stars: "", type: "ПДД" },
+      { art: "8.2 ч.2", title: "Без номеров / скрытые номера", penalty: "5 000 – 18 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.3 ч.1", title: "Без СТС", penalty: "до 3 000 ₽ / Пред.", stars: "", type: "ПДД" },
+      { art: "8.3 ч.2", title: "Без ВУ при себе", penalty: "до 7 000 ₽ / Пред.", stars: "", type: "ПДД" },
+      { art: "8.3 ч.3", title: "Передача ТС лицу без документов", penalty: "до 25 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.4", title: "Без ремня / шлема", penalty: "до 5 000 ₽ / Пред.", stars: "", type: "ПДД" },
+      { art: "8.5 ч.1", title: "Езда без получения прав", penalty: "15 000 – 25 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.5 ч.2", title: "Езда лишенным прав", penalty: "30 000 – 50 000 ₽ | Арест до 15 сут", stars: "★★", type: "ПДД" },
+      { art: "8.6 ч.1", title: "Скорость >15 км/ч", penalty: "до 10 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.6 ч.2", title: "Скорость >40 км/ч", penalty: "до 25 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.6 ч.3", title: "Скорость >60 км/ч", penalty: "до 35 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.10", title: "Езда по обочине/тротуару", penalty: "до 4 750 ₽", stars: "", type: "ПДД" },
+      { art: "8.12", title: "Нарушение парковки (Эвакуация)", penalty: "до 7 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.14", title: "ДТП (Легкий/Средний вред)", penalty: "15 000 – 37 000 ₽", stars: "", type: "ПДД" },
+      { art: "8.15", title: "Невыполнение требования остановки", penalty: "10 000 – 30 000 ₽ | Арест до 20 сут", stars: "★★", type: "ПДД" },
+      { art: "8.19 - 8.25", title: "Общие нарушения ПДД (встречка, обгон, светофор)", penalty: "1 500 – 25 000 ₽", stars: "", type: "ПДД" },
+      
+      { art: "5.4 ч.1", title: "Оскорбление (не публично)", penalty: "10 000 – 25 000 ₽ | Арест 20 сут", stars: "★★", type: "Общест." },
+      { art: "5.4 ч.2", title: "Оскорбление (публично)", penalty: "12 000 – 28 000 ₽ | Арест 20 сут", stars: "★★", type: "Общест." },
+      { art: "6.1", title: "Побои (без УК)", penalty: "20 000 – 50 000 ₽ | Арест 20 сут", stars: "★★", type: "Общест." },
+      { art: "6.4", title: "Курение в общ. местах", penalty: "5 000 – 15 000 ₽", stars: "", type: "Общест." },
+      { art: "7.1", title: "Порча имущества (мелкая)", penalty: "3 000 – 15 000 ₽ | Арест 10 сут", stars: "★", type: "Общест." },
+      { art: "9.6", title: "Оскорбление/Вид от госслужащего", penalty: "10 000 – 200 000 ₽", stars: "", type: "Гос." },
+      { art: "10.1", title: "Оскорбление представителя власти", penalty: "10 000 – 25 000 ₽ | Арест 15 сут", stars: "★★", type: "Общест." },
+      { art: "10.2", title: "Отказ от уплаты штрафа", penalty: "Штраф х2 | Арест 20 сут", stars: "★★", type: "Общест." },
+      { art: "10.4", title: "Ложный вызов спецслужб", penalty: "3 000 – 8 000 ₽", stars: "", type: "Общест." },
+      { art: "11.1", title: "Мелкое хулиганство (маты в общ.)", penalty: "5 000 – 20 000 ₽ | Арест 15 сут", stars: "★★", type: "Общест." },
+      { art: "11.5", title: "Распитие алкоголя в общ. месте", penalty: "4 000 – 12 000 ₽ | Арест 10 сут", stars: "★", type: "Общест." },
+      { art: "11.7", title: "Обнажение оружия в общ. месте", penalty: "10 000 – 20 000 ₽ | Арест 15 сут", stars: "★★", type: "Общест." },
+      { art: "11.8", title: "Нарушение режима закрытых терр.", penalty: "50 000 – 80 000 ₽ | Арест 24 сут", stars: "★★★", type: "Общест." }
+    ];
+
+    // Данные УК РО
+    const ukData = [
+      { art: "51", title: "Убийство", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "52", title: "Убийство при превышении обороны", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "54", title: "Тяжкий вред здоровью", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "55 ч.2", title: "Вред здоровью при задержании", pen: "30 мес", star: "★★★", sud: false, fine: "50 000" },
+      { art: "57", title: "Угроза убийством", pen: "30 мес", star: "★★★", sud: false, fine: "до 100 000" },
+      { art: "58", title: "Похищение человека", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "59", title: "Незаконное лишение свободы", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "60", title: "Клевета", pen: "20 мес", star: "★★", sud: false, fine: "до 100 000" },
+      { art: "65", title: "Кража", pen: "30-40 мес", star: "★★★-★★★★", sud: true, fine: "до 90 000" },
+      { art: "66", title: "Грабеж / Разбой", pen: "30-40 мес", star: "★★★-★★★★", sud: true, fine: "" },
+      { art: "67", title: "Угон ТС", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "68", title: "Уничтожение имущества", pen: "30 мес", star: "★★★", sud: false, fine: "до 50 000" },
+      { art: "73", title: "Хулиганство с отягчающими", pen: "40 мес", star: "★★★★", sud: true, fine: "до 50 000" },
+      { art: "73.1", title: "Проникновение на режимный объект", pen: "40 мес", star: "★★★★", sud: true, fine: "до 150 000" },
+      { art: "74", title: "Незаконное оружие (Хранение/Сбыт)", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "50 000" },
+      { art: "75", title: "Наркотики (Хранение)", pen: "30-50 мес", star: "★★★-★★★★★", sud: true, fine: "до 50 000" },
+      { art: "78 ч.1", title: "ДТП с тяжким вредом", pen: "30 мес", star: "★★★", sud: false, fine: "до 60 000" },
+      { art: "78 ч.2", title: "ДТП со смертью", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "82-84", title: "Превышение / Злоупотребление ДП", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 150 000" },
+      { art: "86-87", title: "Взятка (Получение/Дача)", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 100 000" },
+      { art: "88", title: "Халатность", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 80 000" },
+      { art: "94", title: "Незаконное задержание", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "100", title: "Побег", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "100.1", title: "Уклонение от наказания (розыск)", pen: "1зв = 10мес", star: "—", sud: false, fine: "" },
+      { art: "102", title: "Посягательство на жизнь сотрудника", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "103", title: "Насилие к представителю власти", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 60 000" },
+      { art: "104", title: "Оскорбление представителя власти", pen: "30 мес", star: "★★★", sud: false, fine: "до 40 000" },
+      { art: "105", title: "Неповиновение сотруднику", pen: "30-40 мес", star: "★★★-★★★★", sud: true, fine: "до 60 000" },
+      { art: "110", title: "Дезертирство", pen: "40 мес", star: "★★★★", sud: true, fine: "" }
+    ];
+
+    // Рендер КоАП
+    const koapContainer = document.getElementById('koapGrid');
+    function renderKoap(data) {
+      koapContainer.innerHTML = data.map(item => `
+        <div class="searchable-item bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Ст. ${item.art}</span>
+              ${item.stars ? `<span class="text-xs font-bold text-red-400">${item.stars}</span>` : ''}
+            </div>
+            <h3 class="text-sm font-semibold text-slate-100 mb-1">${item.title}</h3>
+          </div>
+          <div class="mt-2 pt-2 border-t border-slate-700/60 text-xs text-emerald-400 font-semibold">${item.penalty}</div>
+        </div>
+      `).join('');
+    }
+
+    // Рендер УК
+    const ukContainer = document.getElementById('ukGrid');
+    function renderUk(data) {
+      ukContainer.innerHTML = data.map(item => `
+        <div class="searchable-item bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-amber-500/50 transition">
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-900/40 text-amber-300 border border-amber-700/60">УК ${item.art}</span>
+              <div class="flex gap-2 items-center">
+                ${item.sud ? `<span class="w-3 h-3 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]" title="Судимость"></span>` : ''}
+                <span class="text-xs font-bold text-red-400">${item.star}</span>
+              </div>
+            </div>
+            <h3 class="text-sm font-semibold text-slate-100 mb-1">${item.title}</h3>
+          </div>
+          <div class="mt-2 pt-2 border-t border-slate-700/60 flex justify-between text-xs">
+            <span class="text-red-400 font-bold"><i class="fa-solid fa-lock mr-1"></i>${item.pen}</span>
+            ${item.fine ? `<span class="text-emerald-400 font-semibold">${item.fine} ₽</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Инициализация
+    renderKoap(koapData);
+    renderUk(ukData);
+
+    // Функция поиска
+    function filterData(type) {
+      const input = document.getElementById(type + 'Search').value.toLowerCase();
+      const container = document.getElementById(type + 'Grid');
+      const items = container.getElementsByClassName('searchable-item');
+      
+      Array.from(items).forEach(item => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(input) ? 'flex' : 'none';
+      });
+    }
+
     // Переключение вкладок
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('block'));
-      
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('bg-blue-600', 'text-white');
-        btn.classList.add('text-slate-300');
-      });
-
-      const selectedContent = document.getElementById(`content-${tabId}`);
-      const selectedTab = document.getElementById(`tab-${tabId}`);
-
-      if (selectedContent) {
-        selectedContent.classList.remove('hidden');
-        selectedContent.classList.add('block');
-      }
-      if (selectedTab) {
-        selectedTab.classList.add('bg-blue-600', 'text-white');
-        selectedTab.classList.remove('text-slate-300');
-      }
+      document.querySelectorAll('.tab-content').forEach(el => { el.classList.add('hidden'); el.classList.remove('block'); });
+      document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('bg-blue-600', 'text-white'); btn.classList.add('text-slate-300'); });
+      document.getElementById(`content-${tabId}`).classList.remove('hidden');
+      document.getElementById(`content-${tabId}`).classList.add('block');
+      document.getElementById(`tab-${tabId}`).classList.add('bg-blue-600', 'text-white');
+      document.getElementById(`tab-${tabId}`).classList.remove('text-slate-300');
     }
 
-    // Живой поиск по статьям КоАП
-    function filterKoap() {
-      const query = document.getElementById('koapSearch').value.toLowerCase();
-      const cards = document.querySelectorAll('.koap-card');
-      
-      cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        if (text.includes(query)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    // Быстрое копирование текста в буфер обмена
+    // Копирование Миранды
     function copyText(elementId) {
       const text = document.getElementById(elementId).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Текст успешно скопирован в буфер обмена!');
-      });
+      navigator.clipboard.writeText(text).then(() => alert('Текст скопирован!'));
     }
   </script>
 </body>
