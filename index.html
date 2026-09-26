@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Служебный справочник ГИБДД | Россия Онлайн</title>
+  <title>Служебный портал ГИБДД | Россия Онлайн</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
@@ -13,7 +13,6 @@
     }
   </script>
   <style>
-    /* Кастомный скроллбар */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
@@ -31,34 +30,69 @@
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-wide text-white uppercase flex items-center gap-2">
-            УГИБДД РО <span class="text-xs bg-blue-600/30 text-blue-400 border border-blue-500/40 px-2 py-0.5 rounded">База Знаний v2.0</span>
+            УГИБДД РО <span class="text-xs bg-blue-600/30 text-blue-400 border border-blue-500/40 px-2 py-0.5 rounded">Справочник v3.0</span>
           </h1>
-          <p class="text-xs text-slate-400">Служебный портал инспектора безопасности дорожного движения</p>
         </div>
       </div>
 
       <nav class="flex flex-wrap gap-2 text-sm font-medium">
-        <button onclick="switchTab('koap')" id="tab-koap" class="tab-btn active px-3 py-1.5 rounded-lg transition bg-blue-600 text-white"><i class="fa-solid fa-book-bookmark mr-1.5"></i>КоАП</button>
-        <button onclick="switchTab('uk')" id="tab-uk" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-gavel mr-1.5"></i>Уголовный Кодекс</button>
+        <button onclick="switchTab('main')" id="tab-main" class="tab-btn active px-3 py-1.5 rounded-lg transition bg-blue-600 text-white"><i class="fa-solid fa-house mr-1.5"></i>Главная (Поиск)</button>
+        <button onclick="switchTab('koap')" id="tab-koap" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-book-bookmark mr-1.5"></i>КоАП</button>
+        <button onclick="switchTab('uk')" id="tab-uk" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-gavel mr-1.5"></i>УК РО</button>
         <button onclick="switchTab('procedure')" id="tab-procedure" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-handcuffs mr-1.5"></i>Процессуалка</button>
-        <button onclick="switchTab('rules')" id="tab-rules" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-scale-balanced mr-1.5"></i>ПГО и Этика</button>
       </nav>
     </div>
   </header>
 
-  <!-- Основной контент -->
   <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
 
+    <!-- Вкладка 0: Главная страница с поиском -->
+    <section id="content-main" class="tab-content block">
+      <div class="bg-slate-800/80 border border-slate-700 p-8 rounded-2xl mb-6 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Единая база данных ГИБДД</h2>
+        <p class="text-slate-400 mb-6 max-w-2xl mx-auto">Введите номер статьи, название нарушения или ключевое слово. Поиск автоматически проверяет совпадения по всем кодексам (КоАП и УК РО).</p>
+        
+        <div class="relative max-w-3xl mx-auto">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-blue-400 text-lg"></i>
+          <input type="text" id="globalSearch" oninput="performGlobalSearch()" placeholder="Поиск по всем статьям КоАП и УК..." class="w-full bg-slate-900 border-2 border-blue-900/50 text-slate-100 pl-12 pr-4 py-3 rounded-xl text-lg focus:outline-none focus:border-blue-500 transition shadow-lg">
+        </div>
+      </div>
+
+      <div id="globalSearchResults" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
+        <!-- Результаты глобального поиска -->
+      </div>
+      <div id="globalSearchEmpty" class="text-center text-slate-500 py-10 hidden">
+        <i class="fa-solid fa-folder-open text-4xl mb-3 opacity-50"></i>
+        <p>Ничего не найдено. Попробуйте изменить запрос.</p>
+      </div>
+
+      <!-- Быстрые шпаргалки на главной -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6" id="quickTips">
+        <div class="bg-slate-950 p-5 rounded-xl border border-red-900/50">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-red-400"><i class="fa-solid fa-bullhorn mr-2"></i>Правило Миранды</h3>
+            <button onclick="copyText('miranda-text')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-1 rounded transition">Копировать</button>
+          </div>
+          <p id="miranda-text" class="text-sm font-mono text-slate-300">«Вы можете давать показания и объяснения по поводу подозрений в нарушении уголовного кодекса, осознавая их использование в деле, либо отказаться от дачи объяснений и показаний. Вы можете воспользоваться помощью защитника и иметь свидание с ним наедине, воспользоваться телефонным звонком длительностью которого не должна превышать 2-х минут. Вы понимаете свои права?»</p>
+        </div>
+        <div class="bg-slate-950 p-5 rounded-xl border border-amber-900/50">
+          <h3 class="font-bold text-amber-400 mb-3"><i class="fa-solid fa-stopwatch mr-2"></i>Важные тайминги</h3>
+          <ul class="text-sm text-slate-300 space-y-1.5">
+            <li>• Ожидание ответа адвоката: <strong>3 мин</strong> | Приезд: <strong>7 мин</strong></li>
+            <li>• Ожидание прокурора/начальства: <strong>10 мин</strong> | Приезд: <strong>10 мин</strong></li>
+            <li>• Максимальное время задержания: <strong>60 минут</strong></li>
+            <li>• Хранение видеозаписи с боди-камеры: <strong>48 часов</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <!-- Вкладка 1: КоАП -->
-    <section id="content-koap" class="tab-content block">
+    <section id="content-koap" class="tab-content hidden">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
-          <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-500"></i> КоАП РО (Дорожные и общественные статьи)</h2>
-          <p class="text-sm text-slate-400">Ст. 17.6 КоАП: при помехах от адвоката штраф может выписываться без протокола на месте.</p>
-        </div>
-        <div class="relative w-full md:w-80">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
-          <input type="text" id="koapSearch" oninput="filterData('koap')" placeholder="Поиск статьи КоАП..." class="w-full bg-slate-800 border border-slate-700 text-slate-100 pl-9 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition">
+          <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-book-open text-blue-500 mr-2"></i>Кодекс об административных правонарушениях (КоАП)</h2>
+          <p class="text-sm text-slate-400 mt-1">Все дорожные и общественные статьи (Главы 5-11).</p>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="koapGrid"></div>
@@ -68,12 +102,8 @@
     <section id="content-uk" class="tab-content hidden">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
-          <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-gavel text-amber-500"></i> Уголовный кодекс РО</h2>
-          <p class="text-sm text-slate-400">Красным маркером 🟥 отмечены статьи, предусматривающие судимость (от 40 месяцев).</p>
-        </div>
-        <div class="relative w-full md:w-80">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
-          <input type="text" id="ukSearch" oninput="filterData('uk')" placeholder="Поиск статьи УК..." class="w-full bg-slate-800 border border-slate-700 text-slate-100 pl-9 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-amber-500 transition">
+          <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-gavel text-amber-500 mr-2"></i>Уголовный кодекс РО</h2>
+          <p class="text-sm text-slate-400 mt-1">Красным маркером 🟥 отмечены статьи с судимостью (от 40 месяцев).</p>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="ukGrid"></div>
@@ -81,293 +111,314 @@
 
     <!-- Вкладка 3: Процессуалка -->
     <section id="content-procedure" class="tab-content hidden space-y-6">
-      
-      <!-- Алгоритм задержания -->
       <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-        <h2 class="text-2xl font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-handcuffs text-red-400"></i> Порядок задержания (ст. 52 УПК / ст. 16.2.1 КоАП)</h2>
+        <h2 class="text-2xl font-bold text-white mb-3"><i class="fa-solid fa-handcuffs text-red-400 mr-2"></i>Порядок задержания (ст. 52 УПК)</h2>
         <ol class="space-y-3 text-sm text-slate-200 mt-4">
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">1</span>
-            <div><strong>Ограничение свободы:</strong> Применить спецсредства (наручники/залом) с целью ограничить свободу.</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">2</span>
-            <div><strong>Идентификация сотрудника:</strong> Предъявить служебное удостоверение или иной идентификационный знак (жетон).</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span>
-            <div><strong>Обыск (на усмотрение):</strong> Провести первичный поверхностный досмотр.</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">4</span>
-            <div><strong>Оглашение прав:</strong> Разъяснить основания задержания и зачитать права гражданина (Миранду).</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">5</span>
-            <div><strong>Транспортировка:</strong> Доставить задержанного в КПЗ / допросную. (Пункт 6: Передать МВД/ФСБ, если дело не подследственно ГИБДД).</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">6</span>
-            <div><strong>Идентификация задержанного:</strong> Установить личность. Если госслужащий — вызвать прокурора и начальство!</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">7</span>
-            <div><strong>Следственные действия:</strong> При необходимости провести допрос, обыск, экспертизу. Допрос не более 60 минут.</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">8</span>
-            <div><strong>Реализация прав:</strong> Вызов адвоката и телефонный звонок.</div>
-          </li>
-          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">9</span>
-            <div><strong>Арест:</strong> Предъявить обвинение с указанием статей УК/КоАП и поместить в КПЗ.</div>
-          </li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">1</span><div><strong>Ограничение свободы:</strong> Применить спецсредства (наручники/залом).</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">2</span><div><strong>Идентификация сотрудника:</strong> Предъявить служебное удостоверение или ОПЗ.</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span><div><strong>Обыск (на усмотрение):</strong> Провести первичный поверхностный досмотр.</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">4</span><div><strong>Оглашение прав:</strong> Разъяснить основания задержания и зачитать Миранду.</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">5</span><div><strong>Транспортировка:</strong> Доставить задержанного в КПЗ / допросную.</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">6</span><div><strong>Передача:</strong> Передать МВД/ФСБ, если дело не подследственно ГИБДД.</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">7</span><div><strong>Следственные действия:</strong> Допрос, обыск, экспертиза.</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">8</span><div><strong>Реализация прав:</strong> Вызов адвоката и телефонный звонок (до 2 мин).</div></li>
+          <li class="flex items-start gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800"><span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs font-bold shrink-0">!</span><div><strong>Если задержанный — госслужащий:</strong> Обязательно вызвать прокурора и руководство.</div></li>
         </ol>
-
-        <!-- Миранда -->
-        <div class="mt-6 bg-slate-950 p-4 rounded-xl border border-red-900/50">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-red-400">Текст правила Миранды (в Voice чат)</span>
-            <button onclick="copyText('miranda-text')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition">
-              <i class="fa-regular fa-copy mr-1"></i>Копировать
-            </button>
-          </div>
-          <p id="miranda-text" class="text-sm font-mono text-slate-200 leading-relaxed">
-            «Вы можете давать показания и объяснения по поводу подозрений в нарушении уголовного кодекса, осознавая их использование в деле, либо отказаться от дачи объяснений и показаний. Вы можете воспользоваться помощью защитника и иметь свидание с ним наедине, воспользоваться телефонным звонком длительностью которого не должна превышать 2-х минут. Вы понимаете свои права?»
-          </p>
-        </div>
       </div>
-
-      <!-- Списки и Тайминги -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Тайминги -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-stopwatch text-amber-400"></i> Процессуальные тайминги</h3>
+          <h3 class="text-base font-bold text-white mb-3"><i class="fa-solid fa-user-shield text-blue-400 mr-2"></i>Неприкосновенные лица</h3>
           <ul class="text-xs space-y-2 text-slate-300">
-            <li>• <strong>Ожидание ответа адвоката:</strong> 3 минуты</li>
-            <li>• <strong>Время на приезд адвоката:</strong> 7 минут</li>
-            <li>• <strong>Конфиденциальная беседа:</strong> до 10 минут</li>
-            <li>• <strong>Телефонный звонок:</strong> 1 звонок до 2 минут</li>
-            <li>• <strong>Вызов прокурора/начальства:</strong> ответ 10 мин, приезд 10 мин</li>
-            <li>• <strong>Макс. время задержания:</strong> 60 минут. Если больше — отпускаем.</li>
-            <li>• <strong>Хранение видеозаписи (боди-камеры):</strong> 72 часа по КоАП.</li>
+            <li>1. Президент и госсоветники | 2. Премьер-министр и замы</li>
+            <li>3. Министры и замы | 4. Пред. СК и замы</li>
+            <li>5. Главы гос. структур и замы | 6. Судьи</li>
+            <li>7. Прокуроры и СК при исполнении</li>
+            <li>8. Кандидаты в президенты | 9. Агенты ПС ФСБ (при надзоре)</li>
+            <li>10. Депутаты ГД (от объявления до конца сессии)</li>
           </ul>
         </div>
-
-        <!-- Неприкосновенные -->
         <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-user-shield text-blue-400"></i> Неприкосновенные лица</h3>
-          <ul class="text-xs space-y-2 text-slate-300">
-            <li>1. Президент и госсоветники</li>
-            <li>2. Премьер-министр и замы</li>
-            <li>3. Министры и замы</li>
-            <li>4. Председатель СК и замы</li>
-            <li>5. Главы гос. структур и замы</li>
-            <li>6. Судьи, Прокуроры, Агенты ПС ФСБ (при надзоре)</li>
-            <li>7. Депутаты ГД</li>
-            <li><span class="text-amber-400">Запрещено задерживать! Немедленно отпустить после установки личности.</span></li>
-          </ul>
-        </div>
-
-        <!-- Субъекты -->
-        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-users text-emerald-400"></i> Субъекты задержания</h3>
-          <p class="text-xs text-slate-400 mb-2">Кто имеет право находиться в допросной/КПЗ:</p>
-          <ul class="text-xs space-y-1 text-slate-300">
-            <li>1. Сотрудники, проводящие задержание</li>
-            <li>2. Сам задержанный</li>
-            <li>3. Адвокат задержанного</li>
-            <li>4. Руководство задержанного</li>
-            <li>5. Сотрудник прокуратуры и 1 СК</li>
-            <li>6. Агент ПС ФСБ для надзора</li>
-            <li>7. Судья (при упрощ. судопроизводстве)</li>
+          <h3 class="text-base font-bold text-white mb-3"><i class="fa-solid fa-users text-emerald-400 mr-2"></i>Субъекты задержания</h3>
+          <ul class="text-xs space-y-1.5 text-slate-300">
+            <li>1. Сотрудники, проводящие задержание | 2. Задержанный</li>
+            <li>3. Адвокат | 4. Руководство задержанного</li>
+            <li>5. Сотрудник ген. прокуратуры | 6. 1 Прокурор и 1 СК</li>
+            <li>7. 1 сотрудник ПС ФСБ для надзора</li>
+            <li>8. Судья при упрощ. судопроизводстве</li>
           </ul>
         </div>
       </div>
-    </section>
-
-    <!-- Вкладка 4: ПГО и Этика -->
-    <section id="content-rules" class="tab-content hidden space-y-6">
-      
-      <!-- Правила Гос. Организаций -->
-      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-building-shield text-blue-400"></i> Правила Государственных Организаций (ПГО)</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-            <h3 class="font-bold text-blue-400 mb-1">Сроки КПЗ (п. 1.7 ПГО)</h3>
-            <p class="text-xs text-slate-300">Максимум <strong>10 минут за 1 звезду розыска</strong>. Максимальный срок за 5 звезд — 50 минут. Отклонение в большую сторону запрещено. Жетон = Static ID.</p>
-          </div>
-          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-            <h3 class="font-bold text-blue-400 mb-1">Обыск багажников (р. 14 ПГО)</h3>
-            <p class="text-xs text-slate-300">В патруле обыск багажника разрешен только при <strong>нарушениях УК</strong>, либо при ограблениях (бизнеса/банка), либо по выписанному ордеру от руководства.</p>
-          </div>
-          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-            <h3 class="font-bold text-blue-400 mb-1">Взятки (п. 1.1.2 ПГО)</h3>
-            <p class="text-xs text-slate-300">Сумма взятки не должна превышать <strong>100.000 ₽</strong> (передается исключительно деньгами). Для сумм выше нужна РП-ситуация на форуме.</p>
-          </div>
-          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-            <h3 class="font-bold text-blue-400 mb-1">Задержание госслужащих (п. 1.14)</h3>
-            <p class="text-xs text-slate-300">Сотрудник госструктуры может быть посажен в КПЗ <strong>только при выявлении нарушения от прокурора</strong>. Исключение: отсутствие ОПЗ (жетона/удостоверения) или ордер суда.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Кодекс Этики -->
-      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-user-tie text-emerald-400"></i> Кодекс Этики и Служебного Поведения</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-            <h3 class="font-bold text-emerald-400 mb-1">Общение и субординация (ст. 13)</h3>
-            <p class="text-xs text-slate-300">Обращение к коллегам и гражданам строго на <strong>«Вы»</strong>. Запрещено использование нецензурных слов, прозвищ, фамильярности. Обращение по званию: «Товарищ Генерал».</p>
-          </div>
-          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-            <h3 class="font-bold text-emerald-400 mb-1">Внешний вид и одежда (ст. 21-24)</h3>
-            <p class="text-xs text-slate-300">Строгий деловой стиль. Запрещены: спортивная одежда, яркие линзы/волосы, татуировки на видимых частях тела, неклассические очки, броские ювелирные украшения.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Термины и OOC -->
-      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl">
-        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Базовые правила сервера (Наказания)</h2>
-        <ul class="text-xs space-y-2 text-slate-300 grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <li><strong>DM (Deathmatch):</strong> Убийство/урон без IC причины. Деморган 120-140 мин / Бан.</li>
-          <li><strong>DB (DriveBy):</strong> Наезд на игрока транспортом. Деморган 65-90 мин / Бан.</li>
-          <li><strong>PG (Powergaming):</strong> Преувеличение возможностей 1х1 (например, выход 1 в 3).</li>
-          <li><strong>NRD (NonRP Drive):</strong> Встречка, горы, тротуары. Наказание: VehBan 120-240 мин. Госникам в погоне — разрешено!</li>
-          <li><strong>Уход от RP:</strong> Выход из игры, вода, интерьер в погоне. Варн / Бан 5-10 дней.</li>
-          <li><strong>NLR (Новая жизнь):</strong> Запрет возвращаться на место смерти 15 минут. Месть запрещена.</li>
-        </ul>
-      </div>
-
     </section>
 
   </main>
 
-  <!-- База Данных КоАП и УК (Скрипт для рендера) -->
   <script>
-    // Данные КоАП РО
+    // --- ПОЛНАЯ БАЗА КОАП ---
     const koapData = [
-      { art: "8.1", title: "Езда без регистрации ТС", penalty: "3 000 – 7 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.2 ч.1", title: "Нечитаемые номера", penalty: "до 5 000 ₽ / Пред.", stars: "", type: "ПДД" },
-      { art: "8.2 ч.2", title: "Без номеров / скрытые номера", penalty: "5 000 – 18 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.3 ч.1", title: "Без СТС", penalty: "до 3 000 ₽ / Пред.", stars: "", type: "ПДД" },
-      { art: "8.3 ч.2", title: "Без ВУ при себе", penalty: "до 7 000 ₽ / Пред.", stars: "", type: "ПДД" },
-      { art: "8.3 ч.3", title: "Передача ТС лицу без документов", penalty: "до 25 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.4", title: "Без ремня / шлема", penalty: "до 5 000 ₽ / Пред.", stars: "", type: "ПДД" },
-      { art: "8.5 ч.1", title: "Езда без получения прав", penalty: "15 000 – 25 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.5 ч.2", title: "Езда лишенным прав", penalty: "30 000 – 50 000 ₽ | Арест до 15 сут", stars: "★★", type: "ПДД" },
-      { art: "8.6 ч.1", title: "Скорость >15 км/ч", penalty: "до 10 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.6 ч.2", title: "Скорость >40 км/ч", penalty: "до 25 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.6 ч.3", title: "Скорость >60 км/ч", penalty: "до 35 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.10", title: "Езда по обочине/тротуару", penalty: "до 4 750 ₽", stars: "", type: "ПДД" },
-      { art: "8.12", title: "Нарушение парковки (Эвакуация)", penalty: "до 7 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.14", title: "ДТП (Легкий/Средний вред)", penalty: "15 000 – 37 000 ₽", stars: "", type: "ПДД" },
-      { art: "8.15", title: "Невыполнение требования остановки", penalty: "10 000 – 30 000 ₽ | Арест до 20 сут", stars: "★★", type: "ПДД" },
-      { art: "8.19 - 8.25", title: "Общие нарушения ПДД (встречка, обгон, светофор)", penalty: "1 500 – 25 000 ₽", stars: "", type: "ПДД" },
-      
-      { art: "5.4 ч.1", title: "Оскорбление (не публично)", penalty: "10 000 – 25 000 ₽ | Арест 20 сут", stars: "★★", type: "Общест." },
-      { art: "5.4 ч.2", title: "Оскорбление (публично)", penalty: "12 000 – 28 000 ₽ | Арест 20 сут", stars: "★★", type: "Общест." },
-      { art: "6.1", title: "Побои (без УК)", penalty: "20 000 – 50 000 ₽ | Арест 20 сут", stars: "★★", type: "Общест." },
-      { art: "6.4", title: "Курение в общ. местах", penalty: "5 000 – 15 000 ₽", stars: "", type: "Общест." },
-      { art: "7.1", title: "Порча имущества (мелкая)", penalty: "3 000 – 15 000 ₽ | Арест 10 сут", stars: "★", type: "Общест." },
-      { art: "9.6", title: "Оскорбление/Вид от госслужащего", penalty: "10 000 – 200 000 ₽", stars: "", type: "Гос." },
-      { art: "10.1", title: "Оскорбление представителя власти", penalty: "10 000 – 25 000 ₽ | Арест 15 сут", stars: "★★", type: "Общест." },
-      { art: "10.2", title: "Отказ от уплаты штрафа", penalty: "Штраф х2 | Арест 20 сут", stars: "★★", type: "Общест." },
-      { art: "10.4", title: "Ложный вызов спецслужб", penalty: "3 000 – 8 000 ₽", stars: "", type: "Общест." },
-      { art: "11.1", title: "Мелкое хулиганство (маты в общ.)", penalty: "5 000 – 20 000 ₽ | Арест 15 сут", stars: "★★", type: "Общест." },
-      { art: "11.5", title: "Распитие алкоголя в общ. месте", penalty: "4 000 – 12 000 ₽ | Арест 10 сут", stars: "★", type: "Общест." },
-      { art: "11.7", title: "Обнажение оружия в общ. месте", penalty: "10 000 – 20 000 ₽ | Арест 15 сут", stars: "★★", type: "Общест." },
-      { art: "11.8", title: "Нарушение режима закрытых терр.", penalty: "50 000 – 80 000 ₽ | Арест 24 сут", stars: "★★★", type: "Общест." }
+      { art: "5.4 ч.1", title: "Оскорбление (без публичности)", pen: "10 000 – 25 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "5.4 ч.2", title: "Оскорбление (публично, в интернете)", pen: "12 000 – 28 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "5.4 ч.3", title: "Оскорбление лица, замещающего госдолжность", pen: "90 000 – 130 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "6.1", title: "Побои", pen: "20 000 – 50 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "6.2", title: "Занятие проституцией", pen: "1 000 – 10 000 руб.", star: "★★", arr: "до 15 сут." },
+      { art: "6.3", title: "Пропаганда нетрадиционных отношений и смены пола", pen: "25 000 – 100 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "6.4", title: "Курение в общественных местах", pen: "5 000 – 15 000 руб.", star: "", arr: "" },
+      { art: "6.7", title: "Воспрепятствование оказанию медпомощи", pen: "10 000 – 30 000 руб.", star: "", arr: "" },
+      { art: "7.1", title: "Уничтожение или повреждение чужого имущества", pen: "3 000 – 15 000 руб.", star: "★", arr: "до 10 сут." },
+      { art: "8.1", title: "Управление ТС без регистрации", pen: "3 000 – 7 000 руб.", star: "", arr: "" },
+      { art: "8.2 ч.1", title: "Управление с нечитаемыми номерами", pen: "до 5 000 руб.", star: "", arr: "" },
+      { art: "8.2 ч.2", title: "Управление без номеров / изменённые", pen: "5 000 – 18 000 руб.", star: "", arr: "" },
+      { art: "8.3 ч.1", title: "Управление без рег. документов", pen: "до 3 000 руб.", star: "", arr: "" },
+      { art: "8.3 ч.2", title: "Управление без документов на право управления", pen: "до 7 000 руб.", star: "", arr: "" },
+      { art: "8.3 ч.3", title: "Передача управления лицу без документов", pen: "до 25 000 руб.", star: "", arr: "" },
+      { art: "8.4", title: "Нарушение правил применения ремней / мотошлемов", pen: "до 5 000 руб.", star: "", arr: "" },
+      { art: "8.5 ч.1", title: "Управление ТС лицом, не имеющим права", pen: "15 000 – 25 000 руб.", star: "", arr: "" },
+      { art: "8.5 ч.2", title: "Управление ТС лишённым прав", pen: "30 000 – 50 000 руб.", star: "★★", arr: "до 15 сут." },
+      { art: "8.5 ч.3", title: "Передача управления лицу без прав", pen: "50 000 руб.", star: "", arr: "" },
+      { art: "8.6 ч.1", title: "Превышение скорости >15 км/ч", pen: "до 10 000 руб.", star: "", arr: "" },
+      { art: "8.6 ч.2", title: "Превышение скорости >40 км/ч", pen: "до 25 000 руб.", star: "", arr: "" },
+      { art: "8.6 ч.3", title: "Превышение скорости >60 км/ч", pen: "до 35 000 руб.", star: "", arr: "" },
+      { art: "8.7", title: "Нарушение правил проезда ж/д переезда", pen: "15 000 руб.", star: "", arr: "" },
+      { art: "8.8", title: "Проезд на запрещающий жест регулировщика", pen: "2 000 руб.", star: "", arr: "" },
+      { art: "8.9", title: "Выезд на перекрёсток при заторе", pen: "до 2 500 руб.", star: "", arr: "" },
+      { art: "8.10 ч.1", title: "Нарушение расположения ТС на дороге", pen: "до 3 500 руб.", star: "", arr: "" },
+      { art: "8.10 ч.2", title: "Движение по велодорожкам / тротуарам", pen: "до 4 750 руб.", star: "", arr: "" },
+      { art: "8.11 ч.1", title: "Несоблюдение знаков / разметки", pen: "до 2 500 руб.", star: "", arr: "" },
+      { art: "8.11 ч.2", title: "Движение во встречном по односторонней", pen: "до 3 000 руб.", star: "", arr: "" },
+      { art: "8.12 ч.1", title: "Нарушение правил остановки / стоянки", pen: "до 5 000 руб.", star: "", arr: "" },
+      { art: "8.12 ч.2", title: "Нарушение остановки в местах для остановки", pen: "до 7 000 руб.", star: "", arr: "" },
+      { art: "8.13", title: "Нарушение пользования световыми приборами", pen: "до 2 500 руб.", star: "", arr: "" },
+      { art: "8.14 ч.1", title: "ДТП с лёгким вредом здоровью", pen: "15 000 – 25 000 руб.", star: "", arr: "" },
+      { art: "8.14 ч.2", title: "ДТП со средней тяжестью вреда здоровью", pen: "20 000 – 37 000 руб.", star: "", arr: "" },
+      { art: "8.15", title: "Невыполнение требования об остановке", pen: "10 000 – 30 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "8.16", title: "Нарушение ПДД пешеходом", pen: "до 3 000 руб.", star: "", arr: "" },
+      { art: "8.19", title: "Нарушение правил водителей / пассажиров (общее)", pen: "1 500 – 20 000 руб.", star: "", arr: "" },
+      { art: "8.20", title: "Нарушение правил пешеходов / велосипедистов (общее)", pen: "1 500 – 8 000 руб.", star: "", arr: "" },
+      { art: "8.21", title: "Нарушение расположения ТС (общее)", pen: "1 500 – 10 000 руб.", star: "", arr: "" },
+      { art: "8.22", title: "Нарушение правил обгона (общее)", pen: "1 500 – 15 000 руб.", star: "", arr: "" },
+      { art: "8.23", title: "Нарушение остановки / стоянки (общее)", pen: "1 500 – 10 000 руб.", star: "", arr: "" },
+      { art: "8.24", title: "Нарушение проезда перекрёстков (общее)", pen: "1 500 – 25 000 руб.", star: "", arr: "" },
+      { art: "8.25", title: "Иные нарушения ПДД (общее)", pen: "1 500 – 20 000 руб.", star: "", arr: "" },
+      { art: "9.1 ч.1", title: "Невыполнение требований депутата", pen: "35 000 – 55 000 руб.", star: "★★", arr: "до 15 сут." },
+      { art: "9.1 ч.2", title: "Несоблюдение сроков ответа депутату", pen: "30 000 – 70 000 руб.", star: "", arr: "" },
+      { art: "9.2 ч.1", title: "Неисполнение распоряжения судьи", pen: "10 000 – 25 000 руб.", star: "★★", arr: "до 15 сут." },
+      { art: "9.2 ч.2", title: "Неисполнение распоряжения судебного пристава", pen: "10 000 – 25 000 руб.", star: "", arr: "" },
+      { art: "9.3 ч.1", title: "Оставление без рассмотрения частного определения", pen: "30 000 – 50 000 руб.", star: "", arr: "" },
+      { art: "9.3 ч.2", title: "Неисполнение частного определения", pen: "35 000 – 55 000 руб.", star: "", arr: "" },
+      { art: "9.4", title: "Неуважение к Федеральному Собранию", pen: "25 000 – 50 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "9.5 ч.1", title: "Неявка депутата на заседание", pen: "35 000 – 50 000 руб.", star: "", arr: "" },
+      { art: "9.6 ч.1", title: "Оскорбительное обращение госслужащего", pen: "20 000 – 200 000 руб.", star: "", arr: "" },
+      { art: "9.6 ч.2", title: "Несоблюдение внешнего вида госслужащим", pen: "10 000 – 100 000 руб.", star: "", arr: "" },
+      { art: "10.1", title: "Оскорбление представителя власти", pen: "10 000 – 25 000 руб.", star: "★★", arr: "15 сут." },
+      { art: "10.2", title: "Отказ от уплаты административного штрафа", pen: "в двукратном размере", star: "★★", arr: "до 20 сут." },
+      { art: "10.3", title: "Не рассмотрение акта прокурорского реагирования", pen: "20 000 – 40 000 руб.", star: "", arr: "" },
+      { art: "10.4", title: "Заведомо ложный вызов спецслужб", pen: "3 000 – 8 000 руб.", star: "", arr: "" },
+      { art: "10.5 ч.1", title: "Несообщение о деятельности иноагента", pen: "30 000 – 50 000 руб.", star: "", arr: "" },
+      { art: "10.5 ч.3", title: "Неисполнение обязанностей иноагента", pen: "35 000 – 55 000 руб.", star: "", arr: "" },
+      { art: "11.1", title: "Мелкое хулиганство", pen: "5 000 – 20 000 руб.", star: "★★", arr: "до 15 сут." },
+      { art: "11.2 ч.1", title: "Нарушение организатором порядка проведения мероприятия", pen: "25 000 – 50 000 руб.", star: "", arr: "" },
+      { art: "11.2 ч.2", title: "Проведение мероприятия без уведомления", pen: "30 000 – 70 000 руб.", star: "", arr: "" },
+      { art: "11.2 ч.3", title: "Нарушение участником порядка проведения", pen: "20 000 – 35 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "11.3 ч.1", title: "Дискредитация ВС РО (публичные действия)", pen: "40 000 – 55 000 руб.", star: "", arr: "" },
+      { art: "11.3 ч.2", title: "Дискредитация с призывами или созданием угроз", pen: "50 000 – 70 000 руб.", star: "", arr: "" },
+      { art: "11.4 ч.1", title: "Нарушение комендантского часа (ЧП / ВП)", pen: "до 20 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "11.4 ч.2", title: "Организация / участие в публичном мероприятии при ЧП/ВП", pen: "до 35 000 руб.", star: "★★", arr: "до 20 сут." },
+      { art: "11.4 ч.3", title: "Отказ предъявить удостоверение личности в зоне ЧП/ВП", pen: "до 15 000 руб.", star: "★★", arr: "до 15 сут." },
+      { art: "11.5", title: "Распитие алкоголя в общественных местах", pen: "4 000 – 12 000 руб.", star: "★", arr: "до 10 сут." },
+      { art: "11.6", title: "Нахождение в общественном месте в неприемлемом виде", pen: "5 000 – 15 000 руб.", star: "★", arr: "10 сут." },
+      { art: "11.7", title: "Обнажение оружия в общественном месте", pen: "10 000 – 20 000 руб.", star: "★★", arr: "до 15 сут." },
+      { art: "11.8", title: "Незаконное проникновение на закрытую территорию", pen: "50 000 – 80 000 руб.", star: "★★★", arr: "до 24 сут." }
     ];
 
-    // Данные УК РО
+    // --- ПОЛНАЯ БАЗА УК РО ---
     const ukData = [
-      { art: "51", title: "Убийство", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "51 ч.1", title: "Убийство", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "51 ч.2", title: "Убийство с отягчающими", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
       { art: "52", title: "Убийство при превышении обороны", pen: "30 мес", star: "★★★", sud: false, fine: "" },
-      { art: "54", title: "Тяжкий вред здоровью", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
-      { art: "55 ч.2", title: "Вред здоровью при задержании", pen: "30 мес", star: "★★★", sud: false, fine: "50 000" },
-      { art: "57", title: "Угроза убийством", pen: "30 мес", star: "★★★", sud: false, fine: "до 100 000" },
+      { art: "53", title: "Причинение смерти по неосторожности", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "54", title: "Умышленное причинение тяжкого вреда здоровью", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "55 ч.1", title: "Тяжкий вред при превышении обороны", pen: "30 мес", star: "★★★", sud: false, fine: "35 000 – 60 000" },
+      { art: "55 ч.2", title: "Тяжкий/средний вред при задержании", pen: "30 мес", star: "★★★", sud: false, fine: "50 000" },
+      { art: "56 ч.1", title: "Истязание", pen: "20 мес", star: "★★", sud: false, fine: "" },
+      { art: "56 ч.2", title: "Истязание с особой жестокостью, группой", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "57", title: "Угроза убийством или тяжким вредом", pen: "30 мес", star: "★★★", sud: false, fine: "25 000 – 100 000" },
       { art: "58", title: "Похищение человека", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
       { art: "59", title: "Незаконное лишение свободы", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
-      { art: "60", title: "Клевета", pen: "20 мес", star: "★★", sud: false, fine: "до 100 000" },
-      { art: "65", title: "Кража", pen: "30-40 мес", star: "★★★-★★★★", sud: true, fine: "до 90 000" },
-      { art: "66", title: "Грабеж / Разбой", pen: "30-40 мес", star: "★★★-★★★★", sud: true, fine: "" },
-      { art: "67", title: "Угон ТС", pen: "30 мес", star: "★★★", sud: false, fine: "" },
-      { art: "68", title: "Уничтожение имущества", pen: "30 мес", star: "★★★", sud: false, fine: "до 50 000" },
+      { art: "60 ч.1", title: "Клевета (без отягчающих)", pen: "—", star: "—", sud: false, fine: "5 000 – 30 000" },
+      { art: "60 ч.2", title: "Клевета с использованием служебного положения", pen: "20 мес", star: "★★", sud: false, fine: "20 000 – 100 000" },
+      { art: "61 ч.1", title: "Изнасилование", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "61 ч.2", title: "Изнасилование с отягчающими", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "62", title: "Понуждение к действиям сексуального характера", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "63", title: "Дискриминация с использованием служебного положения", pen: "20 мес", star: "★★", sud: false, fine: "30 000 – 90 000" },
+      { art: "64 ч.1", title: "Незаконное проникновение в жилище", pen: "30 мес", star: "★★★", sud: false, fine: "до 50 000" },
+      { art: "64 ч.2", title: "То же с насилием или по службе", pen: "40 мес", star: "★★★★", sud: true, fine: "до 75 000" },
+      { art: "65 ч.1", title: "Кража", pen: "30 мес", star: "★★★", sud: false, fine: "до 50 000" },
+      { art: "65 ч.2", title: "Кража группой, с проникновением", pen: "40 мес", star: "★★★★", sud: true, fine: "до 90 000" },
+      { art: "66 ч.1", title: "Грабеж", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "66 ч.2", title: "Грабеж с отягчающими", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "66 ч.3", title: "Разбой", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "67", title: "Неправомерное завладение ТС (угон)", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "68", title: "Умышленное уничтожение/повреждение имущества", pen: "30 мес", star: "★★★", sud: false, fine: "до 50 000" },
+      { art: "69", title: "Незаконное предпринимательство", pen: "40 мес", star: "★★★★", sud: true, fine: "до 100 000" },
+      { art: "70", title: "Террористический акт", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "71", title: "Публичные призывы к терроризму, оправдание", pen: "30 мес", star: "★★★", sud: false, fine: "до 70 000" },
+      { art: "72 ч.1", title: "Создание банды, руководство", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "72 ч.2", title: "Участие в банде", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
       { art: "73", title: "Хулиганство с отягчающими", pen: "40 мес", star: "★★★★", sud: true, fine: "до 50 000" },
-      { art: "73.1", title: "Проникновение на режимный объект", pen: "40 мес", star: "★★★★", sud: true, fine: "до 150 000" },
-      { art: "74", title: "Незаконное оружие (Хранение/Сбыт)", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "50 000" },
-      { art: "75", title: "Наркотики (Хранение)", pen: "30-50 мес", star: "★★★-★★★★★", sud: true, fine: "до 50 000" },
-      { art: "78 ч.1", title: "ДТП с тяжким вредом", pen: "30 мес", star: "★★★", sud: false, fine: "до 60 000" },
-      { art: "78 ч.2", title: "ДТП со смертью", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
-      { art: "82-84", title: "Превышение / Злоупотребление ДП", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 150 000" },
-      { art: "86-87", title: "Взятка (Получение/Дача)", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 100 000" },
-      { art: "88", title: "Халатность", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 80 000" },
-      { art: "94", title: "Незаконное задержание", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
-      { art: "100", title: "Побег", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
-      { art: "100.1", title: "Уклонение от наказания (розыск)", pen: "1зв = 10мес", star: "—", sud: false, fine: "" },
+      { art: "73.1", title: "Незаконное проникновение на режимный объект", pen: "40 мес", star: "★★★★", sud: true, fine: "80 000 – 150 000" },
+      { art: "74 ч.1", title: "Незаконное хранение оружия", pen: "40 мес", star: "★★★★", sud: true, fine: "50 000" },
+      { art: "74 ч.2", title: "Незаконный сбыт оружия", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "74 ч.3", title: "Незаконное изготовление оружия", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "75 ч.1", title: "Наркотики (до 5 г)", pen: "30 мес", star: "★★★", sud: false, fine: "до 50 000" },
+      { art: "75 ч.2", title: "Наркотики в крупном размере (до 20 г)", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "75 ч.3", title: "Наркотики в особо крупном (свыше 20 г)", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "76", title: "Незаконные производство, сбыт наркотиков", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "77", title: "Жестокое обращение с животными", pen: "30 мес", star: "★★★", sud: false, fine: "50 000 – 75 000" },
+      { art: "78 ч.1", title: "Нарушение ПДД, повлекшее тяжкий вред", pen: "30 мес", star: "★★★", sud: false, fine: "до 60 000" },
+      { art: "78 ч.2", title: "Нарушение ПДД, повлекшее смерть", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "79", title: "Государственная измена", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "80", title: "Разглашение государственной тайны", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "81", title: "Утрата документов с гостайной", pen: "30 мес", star: "★★★", sud: false, fine: "30 000 – 70 000" },
+      { art: "82 ч.1", title: "Злоупотребление должностными полномочиями", pen: "40 мес", star: "★★★★", sud: true, fine: "50 000 – 100 000" },
+      { art: "82 ч.2", title: "То же лицом, занимающим госдолжность", pen: "40 мес", star: "★★★★", sud: true, fine: "70 000 – 150 000" },
+      { art: "82 ч.3", title: "Злоупотребление с тяжкими последствиями", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "83 ч.1", title: "Нецелевое расходование бюджетных средств", pen: "30 мес", star: "★★★", sud: false, fine: "40 000 – 70 000" },
+      { art: "83 ч.2", title: "То же группой или в особо крупном", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "84 ч.1", title: "Превышение должностных полномочий", pen: "40 мес", star: "★★★★", sud: true, fine: "65 000 – 100 000" },
+      { art: "84 ч.2", title: "То же лицом, занимающим госдолжность", pen: "40 мес", star: "★★★★", sud: true, fine: "40 000 – 80 000" },
+      { art: "84 ч.3", title: "Превышение с насилием, оружием", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "85 ч.1", title: "Неисполнение приказа сотрудником ОВД", pen: "20 мес", star: "★★", sud: false, fine: "20 000 – 40 000" },
+      { art: "85 ч.2", title: "То же группой или с тяжкими последствиями", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "86 ч.1", title: "Получение взятки", pen: "40 мес", star: "★★★★", sud: true, fine: "50 000 – 100 000" },
+      { art: "86 ч.2", title: "Получение взятки в значительном размере", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "87 ч.1", title: "Дача взятки", pen: "40 мес", star: "★★★★", sud: true, fine: "до 70 000" },
+      { art: "87 ч.2", title: "Дача взятки в значительном размере", pen: "50 мес", star: "★★★★★", sud: true, fine: "до 80 000" },
+      { art: "88 ч.1", title: "Халатность", pen: "40 мес", star: "★★★★", sud: true, fine: "60 000 – 80 000" },
+      { art: "88 ч.2", title: "Халатность, повлекшая тяжкий вред или смерть", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "89 ч.1", title: "Воспрепятствование правосудию", pen: "40 мес", star: "★★★★", sud: true, fine: "до 100 000" },
+      { art: "89 ч.2", title: "Вмешательство в деятельность прокурора", pen: "40 мес", star: "★★★★", sud: true, fine: "до 80 000" },
+      { art: "89 ч.3", title: "То же с использованием служебного положения", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "90", title: "Посягательство на жизнь лица, осуществляющего правосудие", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "91 ч.1", title: "Неуважение к суду", pen: "40 мес", star: "★★★★", sud: true, fine: "до 100 000" },
+      { art: "91 ч.2", title: "Неуважение, выразившееся в оскорблении судьи", pen: "50 мес", star: "★★★★★", sud: true, fine: "до 80 000" },
+      { art: "92 ч.1", title: "Привлечение заведомо невиновного", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "92 ч.2", title: "То же с обвинением в тяжком", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "93", title: "Незаконное освобождение от ответственности", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "94 ч.1", title: "Незаконное задержание", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "94 ч.2", title: "Незаконное заключение под стражу", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "95", title: "Принуждение к даче показаний", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "95.1", title: "Разглашение данных расследования", pen: "40 мес", star: "★★★★", sud: true, fine: "до 50 000" },
+      { art: "96 ч.1", title: "Вынесение заведомо неправосудного акта", pen: "40 мес", star: "★★★★", sud: true, fine: "до 100 000" },
+      { art: "96 ч.2", title: "То же с лишением свободы", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
+      { art: "97 ч.1", title: "Заведомо ложный донос", pen: "40 мес", star: "★★★★", sud: true, fine: "до 50 000" },
+      { art: "97 ч.2", title: "Ложный донос с обвинением в тяжком", pen: "50 мес", star: "★★★★★", sud: true, fine: "до 100 000" },
+      { art: "98", title: "Заведомо ложные показания", pen: "40 мес", star: "★★★★", sud: true, fine: "до 45 000" },
+      { art: "99", title: "Отказ свидетеля от показаний", pen: "—", star: "—", sud: false, fine: "15 000 – 40 000" },
+      { art: "100", title: "Побег из места лишения свободы", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "100.1", title: "Уклонение от отбывания наказания (розыск)", pen: "1 зв = 10 мес", star: "—", sud: false, fine: "" },
+      { art: "101 ч.1", title: "Неисполнение приговора, решения суда", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "101 ч.2", title: "То же представителем власти", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
       { art: "102", title: "Посягательство на жизнь сотрудника", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
-      { art: "103", title: "Насилие к представителю власти", pen: "40-50 мес", star: "★★★★-★★★★★", sud: true, fine: "до 60 000" },
+      { art: "103 ч.1", title: "Применение насилия к представителю власти", pen: "40 мес", star: "★★★★", sud: true, fine: "до 60 000" },
+      { art: "103 ч.2", title: "Применение насилия, опасного для жизни", pen: "50 мес", star: "★★★★★", sud: true, fine: "" },
       { art: "104", title: "Оскорбление представителя власти", pen: "30 мес", star: "★★★", sud: false, fine: "до 40 000" },
-      { art: "105", title: "Неповиновение сотруднику", pen: "30-40 мес", star: "★★★-★★★★", sud: true, fine: "до 60 000" },
-      { art: "110", title: "Дезертирство", pen: "40 мес", star: "★★★★", sud: true, fine: "" }
+      { art: "105 ч.1", title: "Неповиновение сотруднику полиции", pen: "30 мес", star: "★★★", sud: false, fine: "до 40 000" },
+      { art: "105 ч.2", title: "Неповиновение прокурору, следователю", pen: "40 мес", star: "★★★★", sud: true, fine: "до 60 000" },
+      { art: "106 ч.1", title: "Самоуправство", pen: "30 мес", star: "★★★", sud: false, fine: "до 35 000" },
+      { art: "106 ч.2", title: "Самоуправство с насилием", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "107", title: "Незаконная помеха при задержании", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "108", title: "Неисполнение приказа (военнослужащим)", pen: "20 мес", star: "★★", sud: false, fine: "до 40 000" },
+      { art: "109", title: "Самовольное оставление части", pen: "30 мес", star: "★★★", sud: false, fine: "" },
+      { art: "110", title: "Дезертирство", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "111", title: "Уничтожение военного имущества", pen: "40 мес", star: "★★★★", sud: true, fine: "до 60 000" },
+      { art: "112", title: "Насильственные действия в отношении начальника", pen: "40 мес", star: "★★★★", sud: true, fine: "" },
+      { art: "113 ч.1", title: "Оскорбление военнослужащего", pen: "20 мес", star: "★★", sud: false, fine: "до 30 000" },
+      { art: "113 ч.2", title: "Оскорбление военнослужащего (с отягчающими)", pen: "30 мес", star: "★★★", sud: false, fine: "до 40 000" }
     ];
 
-    // Рендер КоАП
-    const koapContainer = document.getElementById('koapGrid');
-    function renderKoap(data) {
-      koapContainer.innerHTML = data.map(item => `
-        <div class="searchable-item bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">Ст. ${item.art}</span>
-              ${item.stars ? `<span class="text-xs font-bold text-red-400">${item.stars}</span>` : ''}
-            </div>
-            <h3 class="text-sm font-semibold text-slate-100 mb-1">${item.title}</h3>
-          </div>
-          <div class="mt-2 pt-2 border-t border-slate-700/60 text-xs text-emerald-400 font-semibold">${item.penalty}</div>
-        </div>
-      `).join('');
-    }
-
-    // Рендер УК
-    const ukContainer = document.getElementById('ukGrid');
-    function renderUk(data) {
-      ukContainer.innerHTML = data.map(item => `
-        <div class="searchable-item bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-amber-500/50 transition">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-900/40 text-amber-300 border border-amber-700/60">УК ${item.art}</span>
-              <div class="flex gap-2 items-center">
-                ${item.sud ? `<span class="w-3 h-3 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]" title="Судимость"></span>` : ''}
-                <span class="text-xs font-bold text-red-400">${item.star}</span>
+    // Рендер карточек
+    function renderCard(item, type) {
+      if (type === 'koap') {
+        return `
+          <div class="searchable-item bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-blue-500/50 transition">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700">КоАП ${item.art}</span>
+                ${item.star ? `<span class="text-xs font-bold text-red-400">${item.star}</span>` : ''}
               </div>
+              <h3 class="text-sm font-semibold text-slate-100 mb-1">${item.title}</h3>
             </div>
-            <h3 class="text-sm font-semibold text-slate-100 mb-1">${item.title}</h3>
-          </div>
-          <div class="mt-2 pt-2 border-t border-slate-700/60 flex justify-between text-xs">
-            <span class="text-red-400 font-bold"><i class="fa-solid fa-lock mr-1"></i>${item.pen}</span>
-            ${item.fine ? `<span class="text-emerald-400 font-semibold">${item.fine} ₽</span>` : ''}
-          </div>
-        </div>
-      `).join('');
+            <div class="mt-2 pt-2 border-t border-slate-700/60 text-xs flex justify-between">
+              <span class="text-emerald-400 font-semibold">${item.pen}</span>
+              ${item.arr ? `<span class="text-red-400"><i class="fa-solid fa-lock mr-1"></i>${item.arr}</span>` : ''}
+            </div>
+          </div>`;
+      } else {
+        return `
+          <div class="searchable-item bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between hover:border-amber-500/50 transition">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-900/40 text-amber-300 border border-amber-700/60">УК ${item.art}</span>
+                <div class="flex gap-2 items-center">
+                  ${item.sud ? `<span class="w-3 h-3 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]" title="Судимость"></span>` : ''}
+                  ${item.star !== '—' ? `<span class="text-xs font-bold text-red-400">${item.star}</span>` : ''}
+                </div>
+              </div>
+              <h3 class="text-sm font-semibold text-slate-100 mb-1">${item.title}</h3>
+            </div>
+            <div class="mt-2 pt-2 border-t border-slate-700/60 flex justify-between text-xs">
+              <span class="text-red-400 font-bold"><i class="fa-solid fa-lock mr-1"></i>${item.pen}</span>
+              ${item.fine ? `<span class="text-emerald-400 font-semibold">${item.fine} ₽</span>` : ''}
+            </div>
+          </div>`;
+      }
     }
 
-    // Инициализация
-    renderKoap(koapData);
-    renderUk(ukData);
+    document.getElementById('koapGrid').innerHTML = koapData.map(item => renderCard(item, 'koap')).join('');
+    document.getElementById('ukGrid').innerHTML = ukData.map(item => renderCard(item, 'uk')).join('');
 
-    // Функция поиска
-    function filterData(type) {
-      const input = document.getElementById(type + 'Search').value.toLowerCase();
-      const container = document.getElementById(type + 'Grid');
-      const items = container.getElementsByClassName('searchable-item');
+    // Глобальный поиск
+    function performGlobalSearch() {
+      const query = document.getElementById('globalSearch').value.toLowerCase();
+      const resultsContainer = document.getElementById('globalSearchResults');
+      const emptyState = document.getElementById('globalSearchEmpty');
+      const quickTips = document.getElementById('quickTips');
+
+      if (query.trim() === '') {
+        resultsContainer.classList.add('hidden');
+        emptyState.classList.add('hidden');
+        quickTips.classList.remove('hidden');
+        return;
+      }
+
+      quickTips.classList.add('hidden');
+      resultsContainer.classList.remove('hidden');
       
-      Array.from(items).forEach(item => {
-        const text = item.innerText.toLowerCase();
-        item.style.display = text.includes(input) ? 'flex' : 'none';
+      let resultsHtml = '';
+      let matchCount = 0;
+
+      koapData.forEach(item => {
+        if ((item.art + ' ' + item.title).toLowerCase().includes(query)) {
+          resultsHtml += renderCard(item, 'koap');
+          matchCount++;
+        }
       });
+
+      ukData.forEach(item => {
+        if ((item.art + ' ' + item.title).toLowerCase().includes(query)) {
+          resultsHtml += renderCard(item, 'uk');
+          matchCount++;
+        }
+      });
+
+      resultsContainer.innerHTML = resultsHtml;
+
+      if (matchCount === 0) {
+        resultsContainer.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+      } else {
+        resultsContainer.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+      }
     }
 
     // Переключение вкладок
@@ -380,10 +431,9 @@
       document.getElementById(`tab-${tabId}`).classList.remove('text-slate-300');
     }
 
-    // Копирование Миранды
-    function copyText(elementId) {
-      const text = document.getElementById(elementId).innerText;
-      navigator.clipboard.writeText(text).then(() => alert('Текст скопирован!'));
+    // Копирование
+    function copyText(id) {
+      navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => alert('Текст скопирован!'));
     }
   </script>
 </body>
