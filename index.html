@@ -17,7 +17,6 @@
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
-    /* Анимация для звездочек избранного */
     .fav-btn.active { color: #facc15; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); transform: scale(1.1); }
   </style>
 </head>
@@ -26,23 +25,26 @@
   <!-- Навбар -->
   <header class="bg-slate-950 border-b border-blue-900/40 sticky top-0 z-50 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/30">
+      
+      <!-- Кликабельный заголовок (возврат на главную) -->
+      <div onclick="switchTab('main')" class="flex items-center gap-3 cursor-pointer group">
+        <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/30 group-hover:bg-blue-500 transition">
           <i class="fa-solid fa-shield-halved text-xl"></i>
         </div>
-        <h1 class="text-xl font-bold tracking-wide text-white uppercase flex items-center gap-2">
+        <h1 class="text-xl font-bold tracking-wide text-white uppercase flex items-center gap-2 group-hover:text-blue-400 transition">
           СПРАВОЧНИК ГИБДД
         </h1>
       </div>
 
+      <!-- Навигация -->
       <nav class="flex flex-wrap items-center gap-2 text-sm font-medium">
         <button onclick="switchTab('main')" id="tab-main" class="tab-btn active px-3 py-1.5 rounded-lg transition bg-blue-600 text-white"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>Главная</button>
         <button onclick="switchTab('koap')" id="tab-koap" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-book-bookmark mr-1.5"></i>КоАП</button>
         <button onclick="switchTab('uk')" id="tab-uk" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-gavel mr-1.5"></i>УК РО</button>
-        <button onclick="switchTab('pdd')" id="tab-pdd" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-car mr-1.5"></i>ПДД РО</button>
+        <button onclick="switchTab('pdd')" id="tab-pdd" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-car mr-1.5"></i>ПоПДД</button>
         <button onclick="switchTab('procedure')" id="tab-procedure" class="tab-btn px-3 py-1.5 rounded-lg transition hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-handcuffs mr-1.5"></i>Процессуалка</button>
         
-        <!-- Кнопка промокода -->
+        <!-- Кнопка GAMEBUP -->
         <a href="https://russia.online/register?utm_campaign=gamepub" target="_blank" class="ml-2 px-4 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold tracking-wider shadow-[0_0_15px_rgba(245,158,11,0.4)] transition hover:scale-105">
           GAMEBUP
         </a>
@@ -54,12 +56,14 @@
 
     <!-- Вкладка 0: Главная страница -->
     <section id="content-main" class="tab-content block">
+      
+      <!-- Поисковой блок -->
       <div class="bg-slate-800/80 border border-slate-700 p-8 rounded-2xl mb-6 text-center shadow-lg">
         <h2 class="text-3xl font-bold text-white mb-4">Единая база данных</h2>
-        <p class="text-slate-400 mb-6 max-w-2xl mx-auto">Введите номер статьи, название нарушения или ключевое слово для сквозного поиска по всем кодексам (КоАП и УК РО).</p>
+        <p class="text-slate-400 mb-6 max-w-2xl mx-auto">Введите номер статьи, название нарушения или ключевое слово для сквозного поиска по всем кодексам (КоАП, УК РО и ПоПДД).</p>
         <div class="relative max-w-3xl mx-auto">
           <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-blue-400 text-lg"></i>
-          <input type="text" id="globalSearch" oninput="performGlobalSearch()" placeholder="Поиск по статьям..." class="w-full bg-slate-900 border-2 border-blue-900/50 text-slate-100 pl-12 pr-4 py-3 rounded-xl text-lg focus:outline-none focus:border-blue-500 transition shadow-inner">
+          <input type="text" id="globalSearch" oninput="performGlobalSearch()" placeholder="Поиск по статьям и правилам ПДД..." class="w-full bg-slate-900 border-2 border-blue-900/50 text-slate-100 pl-12 pr-4 py-3 rounded-xl text-lg focus:outline-none focus:border-blue-500 transition shadow-inner">
         </div>
       </div>
 
@@ -76,9 +80,10 @@
         <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- Сюда рендерятся избранные -->
         </div>
-        <p id="favoritesEmpty" class="text-sm text-slate-500 italic mt-2">Вы пока не добавили статьи в избранное. Нажмите на звездочку в углу любой статьи, чтобы закрепить её здесь.</p>
+        <p id="favoritesEmpty" class="text-sm text-slate-500 italic mt-2">Вы пока не добавили статьи в избранное. Нажмите на звездочку в углу любой статьи (КоАП, УК или ПоПДД), чтобы закрепить её здесь.</p>
       </div>
 
+      <!-- Шпаргалки -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
         <div class="bg-slate-950 p-5 rounded-xl border border-red-900/50 relative group">
           <div class="flex justify-between items-center mb-3">
@@ -111,33 +116,13 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="ukGrid"></div>
     </section>
 
-    <!-- Вкладка 3: ПДД РО -->
-    <section id="content-pdd" class="tab-content hidden space-y-6">
-      <div class="mb-4">
-        <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-car text-blue-400"></i> Основные правила водителей (ПДД РО)</h2>
-        <p class="text-sm text-slate-400">Свод правил, обязанностей и регламентов применения специальных сигналов.</p>
+    <!-- Вкладка 3: ПоПДД -->
+    <section id="content-pdd" class="tab-content hidden">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-car text-emerald-500 mr-2"></i>Постановление о ПДД РО</h2>
+        <p class="text-sm text-slate-400 mt-1">Обязанности водителей, полномочия инспекторов ГИБДД, регламенты и ограничения.</p>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
-          <h3 class="font-bold text-blue-400 mb-2 border-b border-blue-900/50 pb-2">Специальные и звуковые сигналы (Глава III)</h3>
-          <ul class="text-xs text-slate-300 space-y-2">
-            <li><strong>Ст. 3.1.</strong> Водители ТС с включенным синим маячком при выполнении неотложного задания могут отступать от требований ПДД (кроме сигналов регулировщика). Для получения преимущества необходимо включить синий маячок <strong>и звуковой сигнал (сирену)</strong>.</li>
-            <li><strong>Ст. 3.3.</strong> Приближаясь к стоящему ТС с включенным синим маячком, водитель обязан снизить скорость, чтобы иметь возможность немедленно остановиться.</li>
-            <li><strong>Ст. 3.4.</strong> Оранжевый/желтый маячок включается при строительстве, перевозке опасных грузов и эвакуации. Он не дает преимущества в движении.</li>
-            <li><strong>Ст. 3.5.</strong> Сигналы используются при: выезде на вызов/спецоперацию, транспортировке задержанных, патрулировании дорог, погонях.</li>
-          </ul>
-        </div>
-
-        <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-xl">
-          <h3 class="font-bold text-amber-400 mb-2 border-b border-amber-900/50 pb-2">Обязанности при ДТП и Остановке</h3>
-          <ul class="text-xs text-slate-300 space-y-2">
-            <li><strong>При ДТП:</strong> Водитель обязан немедленно остановить ТС, включить аварийную сигнализацию, выставить знак аварийной остановки и не перемещать предметы. В случае пострадавших — вызвать скорую и ГИБДД.</li>
-            <li><strong>Остановка полицией:</strong> Водитель обязан остановиться по требованию инспектора, оставаться в автомобиле (если не указано иное), держать руки на руле и передать ВУ, СТС по требованию сотрудника (по ФЗ "О Полиции").</li>
-            <li><strong>Запреты:</strong> Управлять ТС в состоянии опьянения, пересекать сплошные линии, скрываться с места ДТП, использовать телефон без гарнитуры во время движения.</li>
-          </ul>
-        </div>
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="pddGrid"></div>
     </section>
 
     <!-- Вкладка 4: Процессуалка -->
@@ -161,7 +146,7 @@
   </main>
 
   <script>
-    // --- ИСХОДНЫЕ ДАННЫЕ (Плоские) ---
+    // === БАЗА ДАННЫХ КОАП ===
     const rawKoapData = [
       { art: "5.4 ч.1", title: "Оскорбление (без публичности)", pen: "10 000 – 25 000 руб.", star: "★★", arr: "до 20 сут." },
       { art: "5.4 ч.2", title: "Оскорбление (публично, в интернете)", pen: "12 000 – 28 000 руб.", star: "★★", arr: "до 20 сут." },
@@ -221,6 +206,7 @@
       { art: "11.8", title: "Проникновение на закрытую территорию", pen: "50 000 – 80 000 руб.", star: "★★★", arr: "до 24 сут." }
     ];
 
+    // === БАЗА ДАННЫХ УК ===
     const rawUkData = [
       { art: "51 ч.1", title: "Убийство", pen: "50 мес", star: "★★★★★", sud: true },
       { art: "51 ч.2", title: "Убийство с отягчающими", pen: "50 мес", star: "★★★★★", sud: true },
@@ -264,7 +250,21 @@
       { art: "113 ч.1", title: "Оскорбление военнослужащего", pen: "20 мес", star: "★★", sud: false, fine: "до 30 000" }
     ];
 
-    // --- ЛОГИКА ГРУППИРОВКИ ---
+    // === БАЗА ДАННЫХ ПоПДД ===
+    const rawPddData = [
+      { art: "Глава I", title: "Общие термины и понятия", text: "Водитель — лицо, управляющее ТС. Остановка — преднамеренное прекращение движения до 5 мин. Стоянка — более 5 мин. ДТП — событие с ТС, повлекшее материальный ущерб или травмы. Установлено правостороннее движение." },
+      { art: "Ст. 2.1 - 2.4", title: "Обязанности и запреты водителей", text: "Обязан иметь при себе: ВУ нужной категории и медицинское заключение. Категории: B (легковые/гос), M (мото), C (3+ оси), C1 (микроавтобусы). СИМ (самокаты/велосипеды) управляются без прав. Водителю запрещено управлять ТС в состоянии опьянения или без ВУ." },
+      { art: "Ст. 2.6 - 2.8", title: "Действия при ДТП и Пассажиры", text: "При ДТП: немедленно остановить ТС, включить аварийку, выставить знак, не перемещать предметы, вызвать экипаж ГИБДД. Пассажиры обязаны быть пристегнутыми и выходить со стороны обочины/тротуара. Отвлекать водителя запрещено." },
+      { art: "Глава III", title: "Маячки и Спецсигналы", text: "Синий маяк + звуковой сигнал (сирена) дают приоритет (отступление от ПДД). Водители обязаны уступить дорогу. Желтый/оранжевый маячок не дает преимущества (предупреждает об опасности). Разрешены отступления с синим маяком при: ДТП, буксировке, ослеплении." },
+      { art: "Глава VI", title: "Маневрирование и Разворот", text: "Перед маневром заблаговременно включать поворотники. Уступать пешеходам и попутным ТС при перестроении. На равнозначном нерегулируемом перекрестке — правило «помехи справа». Разворот запрещен: на пешеходных переходах, в тоннелях, на мостах, ж/д переездах и при видимости менее 100 м." },
+      { art: "Глава VII - VIII", title: "Расположение и Скоростной режим", text: "Езда по обочинам, разделительным полосам, тротуарам — запрещена! Скоростные ограничения: Город — 60 км/ч, Жилые и дворовые зоны — 20 км/ч, Трасса — 90 км/ч, Автомагистраль — 110 км/ч." },
+      { art: "Глава IX", title: "Правила Обгона", text: "Обгон запрещен: на регулируемых перекрестках, на пешеходных переходах, на ж/д переездах (и за 100м до них), на мостах, эстакадах, в тоннелях, на опасных поворотах и при ограниченной видимости." },
+      { art: "Глава XI", title: "Проезд перекрестков", text: "Запрещается выезд на перекресток, если впереди образовался затор, вынуждающий остановиться на пересечении. На кольце (круговое движение со знаком 1.54) преимущество имеют те, кто уже двигается по кольцу." },
+      { art: "Глава XV", title: "Полномочия сотрудников ГИБДД", text: "Сотрудник имеет право останавливать ТС. При ДТП: устанавливает виновных, выписывает штрафы, оценивает ущерб, взыскивает компенсацию. Руководство ГИБДД вправе приостановить действие ВУ на срок до 12 часов." },
+      { art: "Ст. 15.13 - 15.14", title: "Регламент перекрытия дорог", text: "Перекрытие санкционируется руководством ГИБДД по веским причинам (ремонт, крупное ДТП, спецоперации). Обязательно: публикация в гос. новости, установка спец. ТС поперек дорожного полотна. Проезд гражданским лицам строго запрещен." }
+    ];
+
+    // Приводим данные в нужный формат и генерируем уникальные ID
     function groupData(data, prefix) {
       const grouped = {};
       data.forEach(item => {
@@ -272,10 +272,7 @@
         const baseArt = match ? match[1] : item.art;
         const part = match && match[2] ? `ч.${match[2]}` : '';
         const id = `${prefix}-${baseArt}`;
-
-        if (!grouped[id]) {
-          grouped[id] = { id, baseArt, type: prefix, parts: [] };
-        }
+        if (!grouped[id]) grouped[id] = { id, baseArt, type: prefix, parts: [] };
         grouped[id].parts.push({ ...item, part });
       });
       return Object.values(grouped);
@@ -283,20 +280,20 @@
 
     const koapGrouped = groupData(rawKoapData, 'koap');
     const ukGrouped = groupData(rawUkData, 'uk');
+    const pddMapped = rawPddData.map((item, i) => ({ ...item, id: `pdd-${i}`, type: 'pdd' }));
+
     let favorites = JSON.parse(localStorage.getItem('gibdd_favs')) || [];
 
-    // Отрисовка Звезд
+    // HTML для звёздочек уровня розыска
     function renderStars(starStr) {
       if (!starStr || starStr === '—') return '';
       const count = (starStr.match(/★/g) || []).length;
       let html = '';
-      for(let i=0; i<count; i++) {
-        html += '<i class="fa-solid fa-star text-amber-500/90 text-[10px] drop-shadow-[0_0_2px_rgba(245,158,11,0.5)]"></i>';
-      }
+      for(let i=0; i<count; i++) html += '<i class="fa-solid fa-star text-amber-500/90 text-[10px] drop-shadow-[0_0_2px_rgba(245,158,11,0.5)]"></i>';
       return `<div class="flex gap-[1px] bg-slate-900/60 px-1.5 py-0.5 rounded border border-amber-900/30">${html}</div>`;
     }
 
-    // Отрисовка Судимости с тултипом
+    // HTML для маркера Судимости с всплывающей подсказкой
     function renderSud() {
       return `
         <span class="group relative cursor-help flex items-center justify-center ml-1">
@@ -305,9 +302,27 @@
         </span>`;
     }
 
-    // Генерация HTML карточки
+    // Универсальная функция отрисовки карточек для КоАП, УК и ПоПДД
     function buildCard(item) {
       const isFav = favorites.includes(item.id);
+
+      // Если это карточка ПДД
+      if (item.type === 'pdd') {
+        return `
+          <div class="bg-slate-800/80 border border-slate-700/80 p-4 rounded-xl relative hover:border-emerald-500/50 transition flex flex-col shadow-sm">
+            <button onclick="toggleFav('${item.id}')" class="fav-btn absolute top-3 right-3 text-lg transition ${isFav ? 'active text-yellow-400' : 'text-slate-600 hover:text-slate-400'}" title="В избранное">
+              <i class="fa-solid fa-star"></i>
+            </button>
+            <div class="mb-3">
+              <span class="text-xs font-bold px-2 py-0.5 rounded border bg-emerald-900/60 text-emerald-300 border-emerald-700">ПоПДД | ${item.art}</span>
+            </div>
+            <h3 class="text-sm font-bold text-slate-100 mb-2 pr-6">${item.title}</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">${item.text}</p>
+          </div>
+        `;
+      }
+
+      // Если это КоАП или УК (группированные части)
       const isUk = item.type === 'uk';
       const colorTag = isUk ? 'amber' : 'blue';
       const bgColor = isUk ? 'bg-amber-900/40 text-amber-300 border-amber-700/60' : 'bg-blue-900/60 text-blue-300 border-blue-700';
@@ -342,13 +357,15 @@
       `;
     }
 
-    // Рендер всех зон
     function renderAll() {
+      // Отрисовка основных вкладок
       document.getElementById('koapGrid').innerHTML = koapGrouped.map(buildCard).join('');
       document.getElementById('ukGrid').innerHTML = ukGrouped.map(buildCard).join('');
+      document.getElementById('pddGrid').innerHTML = pddMapped.map(buildCard).join('');
       
-      // Избранное
-      const favsData = [...koapGrouped, ...ukGrouped].filter(item => favorites.includes(item.id));
+      // Отрисовка Избранного на главной
+      const allData = [...koapGrouped, ...ukGrouped, ...pddMapped];
+      const favsData = allData.filter(item => favorites.includes(item.id));
       const favGrid = document.getElementById('favoritesGrid');
       const favEmpty = document.getElementById('favoritesEmpty');
       
@@ -360,10 +377,11 @@
         favEmpty.classList.remove('hidden');
       }
       
+      // Обновляем результаты поиска, если он активен
       performGlobalSearch();
     }
 
-    // Глобальный поиск
+    // Сквозной глобальный поиск (КоАП + УК + ПоПДД)
     function performGlobalSearch() {
       const query = document.getElementById('globalSearch').value.toLowerCase();
       const resultsBox = document.getElementById('globalSearchResults');
@@ -379,10 +397,16 @@
 
       favSection.classList.add('hidden');
       
-      const allData = [...koapGrouped, ...ukGrouped];
+      const allData = [...koapGrouped, ...ukGrouped, ...pddMapped];
+      
       const filtered = allData.filter(item => {
-        const text = (item.baseArt + ' ' + item.parts.map(p => p.title).join(' ')).toLowerCase();
-        return text.includes(query);
+        if (item.type === 'pdd') {
+          const textPdd = (item.art + ' ' + item.title + ' ' + item.text).toLowerCase();
+          return textPdd.includes(query);
+        } else {
+          const textOther = (item.baseArt + ' ' + item.parts.map(p => p.title).join(' ')).toLowerCase();
+          return textOther.includes(query);
+        }
       });
 
       if (filtered.length > 0) {
@@ -395,7 +419,7 @@
       }
     }
 
-    // Тогл Избранного
+    // Добавление/Удаление из Избранного
     function toggleFav(id) {
       if (favorites.includes(id)) {
         favorites = favorites.filter(f => f !== id);
@@ -403,24 +427,29 @@
         favorites.push(id);
       }
       localStorage.setItem('gibdd_favs', JSON.stringify(favorites));
-      renderAll(); // Перерисовка кнопок и раздела избранного
+      renderAll(); // Перерисовка интерфейса
     }
 
-    // Переключение вкладок
+    // Переключение между вкладками
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => { el.classList.add('hidden'); el.classList.remove('block'); });
       document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('bg-blue-600', 'text-white'); btn.classList.add('text-slate-300'); });
       document.getElementById(`content-${tabId}`).classList.remove('hidden');
       document.getElementById(`content-${tabId}`).classList.add('block');
-      document.getElementById(`tab-${tabId}`).classList.add('bg-blue-600', 'text-white');
-      document.getElementById(`tab-${tabId}`).classList.remove('text-slate-300');
+      
+      const activeTabBtn = document.getElementById(`tab-${tabId}`);
+      if (activeTabBtn) {
+        activeTabBtn.classList.add('bg-blue-600', 'text-white');
+        activeTabBtn.classList.remove('text-slate-300');
+      }
     }
 
+    // Копирование текста в буфер обмена
     function copyText(id) {
       navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => alert('Текст скопирован!'));
     }
 
-    // Первичная отрисовка
+    // Первичный рендер при загрузке страницы
     renderAll();
   </script>
 </body>
